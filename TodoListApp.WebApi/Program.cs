@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TodoListApp.Services.Database;
+
 namespace TodoListApp.WebApi;
 
 public static class Program
@@ -12,6 +15,11 @@ public static class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         _ = builder.Services.AddEndpointsApiExplorer();
         _ = builder.Services.AddSwaggerGen();
+
+        _ = builder.Services.AddDbContext<TodoListDbContext>(opts =>
+        {
+            _ = opts.UseSqlServer(builder.Configuration["ConnectionStrings:TodoListConnection"]);
+        });
 
         var app = builder.Build();
 

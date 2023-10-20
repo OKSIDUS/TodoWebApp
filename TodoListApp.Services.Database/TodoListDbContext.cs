@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace TodoListApp.Services.Database;
@@ -12,4 +7,6 @@ public class TodoListDbContext : DbContext
         : base(options)
     {
     }
+
+    internal DbSet<TodoListEntity> TodoLists => this.Set<TodoListEntity>();
 }

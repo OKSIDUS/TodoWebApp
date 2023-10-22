@@ -1,5 +1,11 @@
 namespace TodoListApp.Services;
-internal interface ITodoListService
+public interface ITodoListService
 {
-    public IQueryable<TodoList> TodoLists { get; }
+    public IQueryable<TodoList> GetTodoLists { get; }
+
+    public void CreateTodoList(TodoList todoList);
+
+    public void SaveTodoList(TodoList todoList);
+
+    public void DeleteTodoList(TodoList todoList);
 }

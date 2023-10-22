@@ -19,6 +19,24 @@ public class TodoListDatabaseService : ITodoListService
         throw new NotImplementedException();
     }
 
+    public TodoList? GetTodoList(long id)
+    {
+        var todoListEntity = this.context.TodoLists.FirstOrDefault(x => x.Id == id);
+        if (todoListEntity == null)
+        {
+            return null;
+        }
+
+        return new TodoList
+        {
+            Id = todoListEntity.Id,
+            Title = todoListEntity.Title,
+            Description = todoListEntity.Description,
+            Tag = todoListEntity.Tag,
+            TaskStatus = todoListEntity.TaskStatus,
+        };
+    }
+
     public void SaveTodoList(TodoList todoList)
     {
         throw new NotImplementedException();

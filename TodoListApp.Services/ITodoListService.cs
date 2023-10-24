@@ -7,7 +7,7 @@ public interface ITodoListService
 
     public void CreateTodoList(TodoList todoList);
 
-    public void SaveTodoList(TodoList todoList);
+    public void UpdateTodoList(TodoList todoList);
 
     public void DeleteTodoList(TodoList todoList);
 }

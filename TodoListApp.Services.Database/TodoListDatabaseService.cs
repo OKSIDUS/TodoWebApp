@@ -7,16 +7,21 @@ public class TodoListDatabaseService : ITodoListService
     {
         this.context = context;
     }
-    public IQueryable<TodoList> GetTodoLists => (IQueryable<TodoList>)this.context.TodoLists;
+    public IQueryable<TodoList> GetTodoLists => this.context.TodoLists;
 
     public void CreateTodoList(TodoList todoList)
     {
-        throw new NotImplementedException();
+        _ = this.context.TodoLists.Add(todoList);
+        _ = this.context.SaveChanges();
     }
 
-    public void DeleteTodoList(TodoList todoList)
+    public void DeleteTodoList(TodoList? todoList)
     {
-        throw new NotImplementedException();
+        if (todoList != null)
+        {
+            _ = this.context.TodoLists.Remove(todoList);
+            _ = this.context.SaveChanges();
+        }
     }
 
     public TodoList? GetTodoList(long id)
@@ -27,18 +32,28 @@ public class TodoListDatabaseService : ITodoListService
             return null;
         }
 
-        return new TodoList
-        {
-            Id = todoListEntity.Id,
-            Title = todoListEntity.Title,
-            Description = todoListEntity.Description,
-            Tag = todoListEntity.Tag,
-            TaskStatus = todoListEntity.TaskStatus,
-        };
+        return todoListEntity;
     }
 
-    public void SaveTodoList(TodoList todoList)
+    public void UpdateTodoList(TodoList todoList)
     {
-        throw new NotImplementedException();
+        if (todoList.Id == 0)
+        {
+            _ = this.context.Add(todoList);
+        }
+        else
+        {
+            TodoList? dbEntry = this.context.TodoLists?.FirstOrDefault(td => td.Id == todoList.Id);
+
+            if (dbEntry != null)
+            {
+                dbEntry.Title = todoList.Title;
+                dbEntry.Description = todoList.Description;
+                dbEntry.Tag = todoList.Tag;
+                dbEntry.TaskStatus = todoList.TaskStatus;
+            }
+        }
+
+        _ = this.context.SaveChanges();
     }
 }

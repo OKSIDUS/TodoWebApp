@@ -36,6 +36,10 @@ public static class Program
         _ = app.UseHttpsRedirection();
 
         _ = app.UseAuthorization();
+        _ = app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
         _ = app.MapControllers();
 
         app.Run();

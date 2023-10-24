@@ -1,5 +1,4 @@
-﻿namespace TodoListApp.Services.WebApi;
+namespace TodoListApp.Services.WebApi;
 public class Class1
 {
-
 }

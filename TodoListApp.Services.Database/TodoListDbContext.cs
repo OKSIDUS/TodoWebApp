@@ -8,5 +8,5 @@ public class TodoListDbContext : DbContext
     {
     }
 
-    internal DbSet<TodoListEntity> TodoLists => this.Set<TodoListEntity>();
+    internal DbSet<TodoList> TodoLists => this.Set<TodoList>();
 }

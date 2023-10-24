@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace TodoListApp.Services.Database;
-internal class TodoListEntity
+public class TodoListEntity
 {
     public long Id { get; set; }
 

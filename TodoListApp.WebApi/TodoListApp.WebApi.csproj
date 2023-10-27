@@ -4,18 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  <EnableNETAnalyzers>true</EnableNETAnalyzers>
 <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 <AnalysisLevel>latest</AnalysisLevel>
 <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <AnalysisLevel>latest</AnalysisLevel>
-    
-  </PropertyGroup>
-  
+    </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="Properties\stylecop.json" />
   </ItemGroup>
+
+
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\TodoListApp.Services.Database\TodoListApp.Services.Database.csproj" />
     <ProjectReference Include="..\TodoListApp.Services\TodoListApp.Services.csproj" />

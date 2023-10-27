@@ -1,46 +1,33 @@
-using Microsoft.EntityFrameworkCore;
-using TodoListApp.Services;
-using TodoListApp.Services.Database;
-
 namespace TodoListApp.WebApi;
 
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        _ = builder.Services.AddControllers();
 
+        builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        _ = builder.Services.AddEndpointsApiExplorer();
-        _ = builder.Services.AddSwaggerGen();
-
-        _ = builder.Services.AddDbContext<TodoListDbContext>(opts =>
-        {
-            _ = opts.UseSqlServer(builder.Configuration["ConnectionStrings:TodoListConnection"]);
-        });
-
-        _ = builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            _ = app.UseSwagger();
-            _ = app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
-        _ = app.UseHttpsRedirection();
+        app.UseHttpsRedirection();
 
-        _ = app.UseAuthorization();
-        _ = app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}"
-            );
-        _ = app.MapControllers();
+        app.UseAuthorization();
+
+
+        app.MapControllers();
 
         app.Run();
     }

@@ -1,5 +1,6 @@
 using TodoListApp.Services.Database;
 using Microsoft.EntityFrameworkCore;
+using TodoListApp.Services;
 
 namespace TodoListApp.WebApi;
 
@@ -22,6 +23,7 @@ public class Program
             _ = options.UseSqlServer(configuration.GetConnectionString("TodoList"));
         });
 
+        _ = builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

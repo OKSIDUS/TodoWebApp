@@ -7,7 +7,7 @@ public interface ITodoListService
 
     public void RemoveTask(int id);
 
-    public TodoList UpdateTask(TodoList task);
+    public void UpdateTask(TodoList task);
 
     public void CreateTask(TodoList task);
 

@@ -2,15 +2,15 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TodoListApp.Services.Database;
-[Table("TodoList")]
-public class TodoListEntity
+[Table("Task")]
+public class TaskEntity
 {
     [Key]
     public int Id { get; set; }
 
     public string Title { get; set; }
 
-    public string Description { get; set; }
+    public int TodoListId { get; set; }
 
-    public bool IsShared { get; set; }
+    public bool IsDone { get; set; }
 }

@@ -24,6 +24,7 @@ public class Program
         });
 
         _ = builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
+        _ = builder.Services.AddScoped<ITaskService, TaskDatabaseService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

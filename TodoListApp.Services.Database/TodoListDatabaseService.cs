@@ -8,33 +8,31 @@ public class TodoListDatabaseService : ITodoListService
         this.dbContext = dbContext;
     }
 
-    public void CreateTask(TodoList task)
+    public void CreateTodoList(TodoList todoList)
     {
         var entity = new TodoListEntity
         {
-            Id = task.Id,
-            Title = task.Title,
-            Description = task.Description,
-            NumberOfTasks = task.NumberOfTasks,
-            IsShared = task.IsShared,
+            Id = todoList.Id,
+            Title = todoList.Title,
+            Description = todoList.Description,
+            IsShared = todoList.IsShared,
         };
         _ = this.dbContext.Add(entity);
         _ = this.dbContext.SaveChanges();
     }
 
-    public TodoList GetTask(int id)
+    public TodoList GetTodoList(int id)
     {
-        var task = this.dbContext.TodoLists.Where(task => task.Id == id).FirstOrDefault();
+        var todoList = this.dbContext.TodoLists.Where(td => td.Id == id).FirstOrDefault();
 
-        if (task != null)
+        if (todoList != null)
         {
             return new TodoList
             {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                NumberOfTasks = task.NumberOfTasks,
-                IsShared = task.IsShared,
+                Id = todoList.Id,
+                Title = todoList.Title,
+                Description = todoList.Description,
+                IsShared = todoList.IsShared,
             };
         }
 
@@ -43,7 +41,6 @@ public class TodoListDatabaseService : ITodoListService
             Id = id,
             Title = string.Empty,
             Description = string.Empty,
-            NumberOfTasks = 0,
             IsShared = false,
         };
     }
@@ -56,41 +53,39 @@ public class TodoListDatabaseService : ITodoListService
             Id = t.Id,
             Title = t.Title,
             Description = t.Description,
-            NumberOfTasks = t.NumberOfTasks,
             IsShared = t.IsShared,
         });
     }
 
-    public void RemoveTask(int id)
+    public void RemoveTodoList(int id)
     {
-        var taskEntity = this.dbContext.TodoLists.Where(t => t.Id == id).FirstOrDefault();
-        if (taskEntity != null)
+        var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == id).FirstOrDefault();
+        if (todoListEntity != null)
         {
-            _ = this.dbContext.TodoLists.Remove(taskEntity);
+            _ = this.dbContext.TodoLists.Remove(todoListEntity);
             _ = this.dbContext.SaveChanges();
         }
     }
 
-    public void UpdateTask(TodoList task)
+    public void UpdateTodoList(TodoList todoList)
     {
-        if (task is null)
+        if (todoList is null)
         {
-            throw new ArgumentNullException(nameof(task));
+            throw new ArgumentNullException(nameof(todoList));
         }
 
-        if (task.Id == 0)
+        if (todoList.Id == 0)
         {
-            this.CreateTask(task);
+            this.CreateTodoList(todoList);
         }
         else
         {
-            var taskEntity = this.dbContext.TodoLists.Where(t => t.Id == task.Id).FirstOrDefault();
-            taskEntity.Title = task.Title;
-            taskEntity.Description = task.Description;
-            taskEntity.NumberOfTasks = task.NumberOfTasks;
-            taskEntity.IsShared = task.IsShared;
+            var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
+            todoListEntity.Title = todoList.Title;
+            todoListEntity.Description = todoList.Description;
+            todoListEntity.IsShared = todoList.IsShared;
 
-            _ = this.dbContext.Update(taskEntity);
+            _ = this.dbContext.Update(todoListEntity);
 
             _ = this.dbContext.SaveChanges();
         }

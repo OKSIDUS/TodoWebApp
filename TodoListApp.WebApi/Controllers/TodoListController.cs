@@ -21,9 +21,22 @@ public class TodoListController : Controller
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            NumberOfTasks = task.NumberOfTasks,
             IsShared = task.IsShared,
         });
+        return this.Ok(todoListModel);
+    }
+
+    [HttpGet("/id")]
+    public IActionResult GetTodoList(int id)
+    {
+        var todolist = this.todoListService.GetTodoList(id);
+        var todoListModel = new TodoListModel
+        {
+            Id = id,
+            Title = todolist.Title,
+            Description = todolist.Description,
+            IsShared = todolist.IsShared,
+        };
         return this.Ok(todoListModel);
     }
 
@@ -36,13 +49,12 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.CreateTask(todoList);
+            this.todoListService.CreateTodoList(todoList);
             return this.Ok(new TodoListModel
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-                NumberOfTasks = todoList.NumberOfTasks,
                 IsShared = todoList.IsShared,
             });
         }
@@ -57,13 +69,12 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.UpdateTask(todoList);
+            this.todoListService.UpdateTodoList(todoList);
             return this.Ok(new TodoListModel
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-                NumberOfTasks = todoList.NumberOfTasks,
                 IsShared = todoList.IsShared,
             });
         }
@@ -78,7 +89,7 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.RemoveTask(id);
+            this.todoListService.RemoveTodoList(id);
             return this.Ok();
         }
     }

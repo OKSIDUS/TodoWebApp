@@ -1,3 +1,6 @@
+using TodoListApp.Services;
+using TodoListApp.Services.WebApi;
+
 namespace TodoListApp.WebApp;
 
 public class Program
@@ -8,6 +11,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        _ = builder.Services.AddScoped<ITodoListService, TodoListWebApiService>();
 
         var app = builder.Build();
 

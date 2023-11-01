@@ -3,13 +3,13 @@ public interface ITodoListService
 {
     public IEnumerable<TodoList> GetTodoLists();
 
-    public TodoList GetTask(int id);
+    public TodoList GetTodoList(int id);
 
-    public void RemoveTask(int id);
+    public void RemoveTodoList(int id);
 
-    public void UpdateTask(TodoList task);
+    public void UpdateTodoList(TodoList todoList);
 
-    public void CreateTask(TodoList task);
+    public void CreateTodoList(TodoList todoList);
 
 
 }

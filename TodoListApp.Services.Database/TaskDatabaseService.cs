@@ -14,7 +14,7 @@ public class TaskDatabaseService : ITaskService
         {
             Title = task.Title,
             TodoListId = task.TodoListId,
-            IsDone = task.IsDone,
+            Status = task.Status,
         });
 
         _ = this.context.SaveChanges();
@@ -39,7 +39,7 @@ public class TaskDatabaseService : ITaskService
         {
             Id = task.Id,
             Title = task.Title,
-            IsDone = task.IsDone,
+            Status = task.Status,
             TodoListId = task.TodoListId,
         };
     }
@@ -52,7 +52,7 @@ public class TaskDatabaseService : ITaskService
             Id = t.Id,
             Title = t.Title,
             TodoListId = t.TodoListId,
-            IsDone = t.IsDone,
+            Status = t.Status,
         });
     }
 
@@ -60,7 +60,7 @@ public class TaskDatabaseService : ITaskService
     {
         var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
         taskEntity.Title = task.Title;
-        taskEntity.IsDone = task.IsDone;
+        taskEntity.Status = task.Status;
         taskEntity.TodoListId = task.TodoListId;
         this.context.Tasks.Update(taskEntity);
         this.context.SaveChanges();

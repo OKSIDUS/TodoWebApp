@@ -13,5 +13,5 @@ public class Task
 
     public int TodoListId { get; set; }
 
-    public bool IsDone { get; set; }
+    public TaskStatus Status { get; set; }
 }

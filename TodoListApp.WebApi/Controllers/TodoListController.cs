@@ -21,7 +21,6 @@ public class TodoListController : Controller
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
-            IsShared = task.IsShared,
         });
         return this.Ok(todoListModel);
     }
@@ -35,7 +34,6 @@ public class TodoListController : Controller
             Id = id,
             Title = todolist.Title,
             Description = todolist.Description,
-            IsShared = todolist.IsShared,
         };
         return this.Ok(todoListModel);
     }
@@ -55,7 +53,6 @@ public class TodoListController : Controller
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-                IsShared = todoList.IsShared,
             });
         }
     }
@@ -75,7 +72,6 @@ public class TodoListController : Controller
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-                IsShared = todoList.IsShared,
             });
         }
     }

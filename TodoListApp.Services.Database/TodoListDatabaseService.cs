@@ -15,7 +15,6 @@ public class TodoListDatabaseService : ITodoListService
             Id = todoList.Id,
             Title = todoList.Title,
             Description = todoList.Description,
-            IsShared = todoList.IsShared,
         };
         _ = this.dbContext.Add(entity);
         _ = this.dbContext.SaveChanges();
@@ -32,7 +31,6 @@ public class TodoListDatabaseService : ITodoListService
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-                IsShared = todoList.IsShared,
             };
         }
 
@@ -41,7 +39,6 @@ public class TodoListDatabaseService : ITodoListService
             Id = id,
             Title = string.Empty,
             Description = string.Empty,
-            IsShared = false,
         };
     }
 
@@ -53,7 +50,6 @@ public class TodoListDatabaseService : ITodoListService
             Id = t.Id,
             Title = t.Title,
             Description = t.Description,
-            IsShared = t.IsShared,
         });
     }
 
@@ -83,7 +79,6 @@ public class TodoListDatabaseService : ITodoListService
             var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
             todoListEntity.Title = todoList.Title;
             todoListEntity.Description = todoList.Description;
-            todoListEntity.IsShared = todoList.IsShared;
 
             _ = this.dbContext.Update(todoListEntity);
 

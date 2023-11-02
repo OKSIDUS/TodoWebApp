@@ -22,7 +22,7 @@ public class TaskController : Controller
             Id = t.Id,
             Title = t.Title,
             TodoListId = t.TodoListId,
-            IsDone = t.IsDone,
+            Status = (Models.TaskStatus)t.Status,
         });
 
         return this.Ok(taskModel);

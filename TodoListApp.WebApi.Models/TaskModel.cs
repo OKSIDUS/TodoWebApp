@@ -7,5 +7,5 @@ public class TaskModel
 
     public int TodoListId { get; set; }
 
-    public bool IsDone { get; set; }
+    public TaskStatus Status { get; set; }
 }

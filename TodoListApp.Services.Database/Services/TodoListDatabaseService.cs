@@ -1,4 +1,6 @@
-namespace TodoListApp.Services.Database;
+using TodoListApp.Services.Database.Entity;
+
+namespace TodoListApp.Services.Database.Services;
 public class TodoListDatabaseService : ITodoListService
 {
     private readonly TodoListDbContext dbContext;
@@ -56,8 +58,15 @@ public class TodoListDatabaseService : ITodoListService
     public void RemoveTodoList(int id)
     {
         var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == id).FirstOrDefault();
+        var tasks = this.dbContext.Tasks.Where(t => t.TodoListId == id).ToList();
         if (todoListEntity != null)
         {
+            foreach (var task in tasks)
+            {
+                _ = this.dbContext.Tasks.Remove(task);
+                _ = this.dbContext.SaveChanges();
+            }
+
             _ = this.dbContext.TodoLists.Remove(todoListEntity);
             _ = this.dbContext.SaveChanges();
         }

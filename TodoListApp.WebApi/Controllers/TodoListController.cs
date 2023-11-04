@@ -39,7 +39,7 @@ public class TodoListController : Controller
     }
 
     [HttpPost("create")]
-    public IActionResult Create(TodoList todoList)
+    public IActionResult Create(TodoListModel todoList)
     {
         if (todoList == null)
         {
@@ -47,18 +47,18 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.CreateTodoList(todoList);
-            return this.Ok(new TodoListModel
+            this.todoListService.CreateTodoList(new TodoList
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
             });
+            return this.Ok(todoList);
         }
     }
 
     [HttpPut("update")]
-    public IActionResult Update(TodoList? todoList)
+    public IActionResult Update(TodoListModel? todoList)
     {
         if (todoList is null)
         {
@@ -66,13 +66,13 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.UpdateTodoList(todoList);
-            return this.Ok(new TodoListModel
+            this.todoListService.UpdateTodoList(new TodoList
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
             });
+            return this.Ok(todoList);
         }
     }
 

@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TodoListApp.Services;
 public class Task
 {
@@ -14,4 +8,6 @@ public class Task
     public int TodoListId { get; set; }
 
     public TaskStatus Status { get; set; }
+
+    public int UserId { get; set; }
 }

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TodoListApp.Services.Database;
+namespace TodoListApp.Services.Database.Entity;
 [Table("Task")]
 public class TaskEntity
 {
@@ -13,4 +13,6 @@ public class TaskEntity
     public int TodoListId { get; set; }
 
     public TaskStatus Status { get; set; }
+
+    public int UserId { get; set; }
 }

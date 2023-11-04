@@ -13,6 +13,13 @@ public class TaskController : Controller
         this.service = service;
     }
 
+    [HttpGet("Task/AllTasks")]
+    public IActionResult GetAllTasks()
+    {
+        var tasks = this.service.GetAllTasks();
+        return this.Ok(tasks);
+    }
+
     [HttpGet("/Task")]
     public IActionResult Index(int todoListID)
     {
@@ -29,9 +36,16 @@ public class TaskController : Controller
     }
 
     [HttpPost("Task/Create")]
-    public IActionResult Create(Task task)
+    public IActionResult Create(TaskModel task)
     {
-        this.service.CreateTask(task);
+        this.service.CreateTask(new Task
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Status = (Services.TaskStatus)task.Status,
+            TodoListId = task.TodoListId,
+            UserId = task.UserId,
+        });
         return this.Ok(task);
     }
 
@@ -43,9 +57,23 @@ public class TaskController : Controller
     }
 
     [HttpPut("Task/Update")]
-    public IActionResult Update(Task task)
+    public IActionResult Update(TaskModel task)
     {
-        this.service.UpdateTask(task);
+        this.service.UpdateTask(new Task
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Status = (Services.TaskStatus)task.Status,
+            TodoListId = task.TodoListId,
+            UserId = task.UserId,
+        });
+        return this.Ok();
+    }
+
+    [HttpPost("Task/Share")]
+    public IActionResult Share(int taskId, int userId)
+    {
+        this.service.ShareTask(taskId, userId);
         return this.Ok();
     }
 }

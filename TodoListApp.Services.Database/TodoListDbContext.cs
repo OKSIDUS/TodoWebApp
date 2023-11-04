@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TodoListApp.Services.Database.Entity;
 
 namespace TodoListApp.Services.Database;
 public class TodoListDbContext : DbContext

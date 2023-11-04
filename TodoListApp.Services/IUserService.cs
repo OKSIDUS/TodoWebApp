@@ -5,4 +5,10 @@ public interface IUserService
 
     public void CreateUser(User user);
 
+    public User GetUser(int userId);
+
+    public IEnumerable<User> GetUsers();
+
+    public void UpdateUser(User user);
+
 }

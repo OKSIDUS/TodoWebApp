@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TodoListApp.Services.Database;
+namespace TodoListApp.Services.Database.Entity;
+[Table("User")]
 public class UserEntity
 {
     [Key]
@@ -9,6 +11,4 @@ public class UserEntity
     public string Name { get; set; }
 
     public string Password { get; set; }
-
-    public IEnumerable<TaskEntity> Tasks { get; set; }
 }

@@ -3,6 +3,7 @@ using TodoListApp.Services;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers;
+[Route("TodoList")]
 public class TodoListController : Controller
 {
     private readonly ITodoListService todoListService;
@@ -16,20 +17,20 @@ public class TodoListController : Controller
     public IActionResult Index()
     {
         var todoLists = this.todoListService.GetTodoLists();
-        var todoListModel = todoLists.Select(task => new TodoListModel
+        var todoList = todoLists.Select(task => new TodoList
         {
             Id = task.Id,
             Title = task.Title,
             Description = task.Description,
         });
-        return this.Ok(todoListModel);
+        return this.Ok(todoList);
     }
 
     [HttpGet("/id")]
     public IActionResult GetTodoList(int id)
     {
         var todolist = this.todoListService.GetTodoList(id);
-        var todoListModel = new TodoListModel
+        var todoListModel = new TodoList
         {
             Id = id,
             Title = todolist.Title,
@@ -47,13 +48,15 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.CreateTodoList(new TodoList
+            var todo = new TodoList
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-            });
-            return this.Ok(todoList);
+            };
+
+            this.todoListService.CreateTodoList(todo);
+            return this.Ok(todo);
         }
     }
 
@@ -66,13 +69,15 @@ public class TodoListController : Controller
         }
         else
         {
-            this.todoListService.UpdateTodoList(new TodoList
+            var todo = new TodoList
             {
                 Id = todoList.Id,
                 Title = todoList.Title,
                 Description = todoList.Description,
-            });
-            return this.Ok(todoList);
+            };
+
+            this.todoListService.UpdateTodoList(todo);
+            return this.Ok(todo);
         }
     }
 

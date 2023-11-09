@@ -11,5 +11,4 @@ public interface ITodoListService
 
     public void CreateTodoList(TodoList todoList);
 
-
 }

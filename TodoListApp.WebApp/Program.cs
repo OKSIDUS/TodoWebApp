@@ -12,17 +12,16 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
-        _ = builder.Services.AddScoped<ITodoListService, TodoListWebApiService>();
-
+        _ = builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/Home/Error");
+      //  if (!app.Environment.IsDevelopment())
+      //  {
+      //      app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
-        }
+      //      app.UseHsts();
+      //  }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -33,7 +32,7 @@ public class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=TodoList}/{action=Index}");
 
         app.Run();
     }

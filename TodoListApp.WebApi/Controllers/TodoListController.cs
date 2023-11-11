@@ -26,7 +26,7 @@ public class TodoListController : Controller
         return this.Ok(todoList);
     }
 
-    [HttpGet("/id")]
+    [HttpGet("/TodoLists/{id}")]
     public IActionResult GetTodoList(int id)
     {
         var todolist = this.todoListService.GetTodoList(id);
@@ -39,8 +39,8 @@ public class TodoListController : Controller
         return this.Ok(todoListModel);
     }
 
-    [HttpPost("create")]
-    public IActionResult Create(TodoListModel todoList)
+    [HttpPost("/TodoLists/Create")]
+    public IActionResult Create([FromBody] TodoListModel todoList)
     {
         if (todoList == null)
         {
@@ -60,8 +60,8 @@ public class TodoListController : Controller
         }
     }
 
-    [HttpPut("update")]
-    public IActionResult Update(TodoListModel? todoList)
+    [HttpPost("/TodoLists/Update/{todoList.Id}")]
+    public IActionResult Update([FromBody] TodoListModel? todoList)
     {
         if (todoList is null)
         {
@@ -81,7 +81,7 @@ public class TodoListController : Controller
         }
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete("/TodoLists/Delete/{id}")]
     public IActionResult Delete(int id)
     {
         if (id <= 0)

@@ -14,7 +14,7 @@ public class TodoListDatabaseService : ITodoListService
     {
         var entity = new TodoListEntity
         {
-            Id = todoList.Id,
+            //Id = todoList.Id,
             Title = todoList.Title,
             Description = todoList.Description,
         };

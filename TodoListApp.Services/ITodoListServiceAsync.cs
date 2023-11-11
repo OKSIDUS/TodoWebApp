@@ -5,9 +5,9 @@ public interface ITodoListServiceAsync
 
     public Task<TodoList> GetTodoListAsync(int id);
 
-    public Task RemoveTodoListAsync(int id);
+    public Task<bool> RemoveTodoListAsync(int id);
 
-    public Task UpdateTodoListAsync(TodoList todoList);
+    public Task<bool> UpdateTodoListAsync(TodoList todoList);
 
-    public Task CreateTodoListAsync(TodoList todoList);
+    public Task<bool> CreateTodoListAsync(TodoList todoList);
 }

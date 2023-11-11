@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using TodoListApp.WebApi.Models;
@@ -12,14 +13,40 @@ public class TodoListWebApiService : ITodoListServiceAsync
         BaseAddress = new Uri("https://localhost:7071"),
     };
 
-    public Task CreateTodoListAsync(TodoList todoList)
+    public async Task<bool> CreateTodoListAsync(TodoList todoList)
     {
-        throw new NotImplementedException();
+        var json = JsonSerializer.Serialize(new TodoListModel
+        {
+            Id = todoList.Id,
+            Title = todoList.Title,
+            Description = todoList.Description,
+        });
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PostAsync("/TodoLists/Create", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException(nameof(todoList));
+        }
+
     }
 
-    public Task<TodoList> GetTodoListAsync(int id)
+    public async Task<TodoList> GetTodoListAsync(int id)
     {
-        throw new NotImplementedException();
+        var response = await httpClient.GetAsync($"/TodoLists/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var todoList = await response.Content.ReadFromJsonAsync<TodoList>();
+            return todoList;
+        }
+
+        return new TodoList();
     }
 
     public async Task<IEnumerable<TodoList>> GetTodoListsAsync()
@@ -35,13 +62,38 @@ public class TodoListWebApiService : ITodoListServiceAsync
         return new List<TodoList>();
     }
 
-    public Task RemoveTodoListAsync(int id)
+    public async Task<bool> RemoveTodoListAsync(int id)
     {
-        throw new NotImplementedException();
+        var response = await httpClient.DeleteAsync($"/TodoLists/Delete/{id}");
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        else
+        {
+            throw new InvalidOperationException(nameof(id));
+        }
     }
 
-    public Task UpdateTodoListAsync(TodoList todoList)
+    public async Task<bool> UpdateTodoListAsync(TodoList todoList)
     {
-        throw new NotImplementedException();
+        var json = JsonSerializer.Serialize(new TodoListModel
+        {
+            Id = todoList.Id,
+            Title = todoList.Title,
+            Description = todoList.Description,
+        });
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var repsonse = await httpClient.PostAsync($"/TodoLists/Update/{todoList.Id}", content);
+
+        if (repsonse.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

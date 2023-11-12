@@ -13,6 +13,7 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         _ = builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
+        _ = builder.Services.AddScoped<ITaskServiceAsync, TaskWebApiService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

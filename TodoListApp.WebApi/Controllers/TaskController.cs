@@ -20,7 +20,7 @@ public class TaskController : Controller
         return this.Ok(tasks);
     }
 
-    [HttpGet("/Task")]
+    [HttpGet("/Tasks/{todoListID}")]
     public IActionResult Index(int todoListID)
     {
         var tasks = this.service.GetTasks(todoListID);

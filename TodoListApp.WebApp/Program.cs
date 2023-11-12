@@ -35,6 +35,12 @@ public class Program
             name: "default",
             pattern: "{controller=TodoList}/{action=Index}");
 
+        _ = app.MapControllerRoute(
+            name: "CreateTask",
+            pattern: "Task/CreateTask/{todoListId:int}",
+            defaults: new { controller = "Task", action = "CreateTask" });
+
+
         app.Run();
     }
 }

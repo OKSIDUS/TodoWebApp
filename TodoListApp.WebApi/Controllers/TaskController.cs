@@ -35,8 +35,8 @@ public class TaskController : Controller
         return this.Ok(taskModel);
     }
 
-    [HttpPost("Task/Create")]
-    public IActionResult Create(TaskModel task)
+    [HttpPost("/Task/Create")]
+    public IActionResult Create([FromBody] TaskModel task)
     {
         this.service.CreateTask(new Task
         {

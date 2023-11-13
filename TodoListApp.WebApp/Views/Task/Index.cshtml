@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="CreateTask" asp-route-id="@Model.FirstOrDefault()?.TodoListId">Create New</a>
+    <a asp-action="CreateTask" asp-route-id="@ViewBag.TodoListId">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -42,16 +42,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TodoListId)
             </td>
-            <td>
+                <td style="@(item.Status == TodoListApp.WebApi.Models.TaskStatus.Overdue ? "color: red;" : "")">
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "EditTask", new { id = item.Id }) |
+                @Html.ActionLink("DetailsTask", "DetailsTask", new { id = item.Id }) |
+                @Html.ActionLink("DeleteTask", "DeleteTask", new { id = item.Id, todoListId = item.TodoListId })
             </td>
         </tr>
 }

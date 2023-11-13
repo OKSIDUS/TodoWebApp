@@ -46,9 +46,9 @@ public class TodoListController : Controller
     {
         var result = await this.service.RemoveTodoListAsync(id);
 
-        if (!result)
+        if (result)
         {
-            return this.RedirectToPage("/Index");
+            return this.RedirectToAction("Index");
         }
         else
         {
@@ -108,6 +108,6 @@ public class TodoListController : Controller
             return this.BadRequest();
         }
 
-        return this.View(todoList);
+        return this.RedirectToAction("Index");
     }
 }

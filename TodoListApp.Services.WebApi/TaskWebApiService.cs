@@ -33,6 +33,31 @@ public class TaskWebApiService : ITaskServiceAsync
         return false;
     }
 
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var response = await httpClient.DeleteAsync($"/Task/Delete/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<Task> GetTaskAsync(int id)
+    {
+        var response = await httpClient.GetAsync($"/Task/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var task = await response.Content.ReadFromJsonAsync<Task>();
+            return task;
+        }
+
+        return new Task();
+    }
+
     public async Task<IEnumerable<Task>> GetTasksAsync(int todoListID)
     {
         var response = await httpClient.GetAsync($"/Tasks/{todoListID}");
@@ -44,5 +69,28 @@ public class TaskWebApiService : ITaskServiceAsync
         }
 
         return new List<Task>();
+    }
+
+    public async Task<bool> UpdateAsync(Task task)
+    {
+        var json = JsonSerializer.Serialize(new TaskModel
+        {
+            Id = task.Id,
+            Title = task.Title,
+            Status = (TodoListApp.WebApi.Models.TaskStatus)task.Status,
+            UserId = task.UserId,
+            TodoListId = task.TodoListId,
+        });
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PostAsync($"/Task/Update/{task.Id}", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

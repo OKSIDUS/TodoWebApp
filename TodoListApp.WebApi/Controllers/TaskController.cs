@@ -13,6 +13,20 @@ public class TaskController : Controller
         this.service = service;
     }
 
+    [HttpGet("/Task/{id}")]
+    public IActionResult GetTask(int id)
+    {
+        var task = this.service.GetTask(id);
+        return this.Ok(new TaskModel
+        {
+            Id = task.Id,
+            Title = task.Title,
+            TodoListId = task.TodoListId,
+            Status = (Models.TaskStatus)task.Status,
+            UserId = task.UserId,
+        });
+    }
+
     [HttpGet("Task/AllTasks")]
     public IActionResult GetAllTasks()
     {
@@ -49,15 +63,15 @@ public class TaskController : Controller
         return this.Ok(task);
     }
 
-    [HttpDelete("Task/Delete")]
+    [HttpDelete("/Task/Delete/{id}")]
     public IActionResult Delete(int id)
     {
         this.service.DeleteTask(id);
         return this.Ok();
     }
 
-    [HttpPut("Task/Update")]
-    public IActionResult Update(TaskModel task)
+    [HttpPost("/Task/Update/{task.Id}")]
+    public IActionResult Update([FromBody] TaskModel task)
     {
         this.service.UpdateTask(new Task
         {

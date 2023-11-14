@@ -1,26 +1,25 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApp.Controllers;
 public class TodoListController : Controller
 {
     private readonly ITodoListServiceAsync service;
+    private readonly IMapper mapper;
 
-    public TodoListController(ITodoListServiceAsync service)
+    public TodoListController(ITodoListServiceAsync service, IMapper mapper)
     {
         this.service = service;
+        this.mapper = mapper;
     }
 
     public async Task<IActionResult> Index()
     {
         var todolists = await this.service.GetTodoListsAsync();
-        var todolistsModel = todolists.Select(t => new TodoListModel
-        {
-            Id = t.Id,
-            Title = t.Title,
-            Description = t.Description,
-        });
+        var todolistsModel = todolists.Select(t => this.mapper.Map<TodoListModel>(t));
         return this.View(todolistsModel);
     }
 
@@ -33,13 +32,7 @@ public class TodoListController : Controller
             return this.NotFound();
         }
 
-        return this.View(new TodoListModel
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-
-        });
+        return this.View(this.mapper.Map<TodoListModel>(todoList));
     }
 
     public async Task<IActionResult> Delete(int id)
@@ -60,23 +53,13 @@ public class TodoListController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var todoList = await this.service.GetTodoListAsync(id);
-        return this.View(new TodoListModel
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-        });
+        return this.View(this.mapper.Map<TodoListModel>(todoList));
     }
 
     [HttpPost("/edit")]
     public async Task<IActionResult> Edit(TodoListModel todoList)
     {
-        var result = await this.service.UpdateTodoListAsync(new TodoList
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-        });
+        var result = await this.service.UpdateTodoListAsync(this.mapper.Map<TodoList>(todoList));
 
         if (!result)
         {
@@ -96,12 +79,7 @@ public class TodoListController : Controller
     [HttpPost("/create")]
     public async Task<IActionResult> Create(TodoListModel todoList)
     {
-        var result = await this.service.CreateTodoListAsync(new TodoList
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-        });
+        var result = await this.service.CreateTodoListAsync(this.mapper.Map<TodoList>(todoList));
 
         if (!result)
         {

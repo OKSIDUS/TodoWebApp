@@ -1,7 +1,9 @@
 using TodoListApp.Services.Database;
 using Microsoft.EntityFrameworkCore;
-using TodoListApp.Services;
 using TodoListApp.Services.Database.Services;
+using AutoMapper;
+using TodoListApp.Common;
+using TodoListApp.Services.interfaces;
 
 namespace TodoListApp.WebApi;
 
@@ -17,6 +19,8 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         _ = builder.Services.AddDbContext<TodoListDbContext>((services, options) =>
         {

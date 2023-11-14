@@ -1,4 +1,5 @@
-using TodoListApp.Services;
+using TodoListApp.Common;
+using TodoListApp.Services.interfaces;
 using TodoListApp.Services.WebApi;
 
 namespace TodoListApp.WebApp;
@@ -14,6 +15,7 @@ public class Program
 
         _ = builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
         _ = builder.Services.AddScoped<ITaskServiceAsync, TaskWebApiService>();
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

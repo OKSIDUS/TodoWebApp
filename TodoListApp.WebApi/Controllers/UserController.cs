@@ -1,15 +1,19 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers;
 public class UserController : Controller
 {
     private readonly IUserService service;
+    private readonly IMapper mapper;
 
-    public UserController(IUserService service)
+    public UserController(IUserService service, IMapper mapper)
     {
         this.service = service;
+        this.mapper = mapper;
     }
 
     [HttpGet("GetUserTasks")]
@@ -22,12 +26,7 @@ public class UserController : Controller
     [HttpPost("CreateUser")]
     public IActionResult Create(UserModel user)
     {
-        this.service.CreateUser(new User
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Password = user.Password,
-        });
+        this.service.CreateUser(this.mapper.Map<User>(user));
         return this.Ok();
     }
 
@@ -42,18 +41,13 @@ public class UserController : Controller
     public IActionResult GetUsers()
     {
         var user = this.service.GetUsers();
-        return this.Ok(user);
+        return this.Ok(this.mapper.Map<UserModel>(user));
     }
 
     [HttpPut("User/Update")]
     public IActionResult UpdateUser(UserModel user)
     {
-        this.service.UpdateUser(new User
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Password = user.Password,
-        });
+        this.service.UpdateUser(this.mapper.Map<User>(user));
         return this.Ok();
     }
 }

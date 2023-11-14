@@ -1,5 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TodoListApp.Services;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 using Task = TodoListApp.Services.Task;
 
@@ -7,44 +8,33 @@ namespace TodoListApp.WebApi.Controllers;
 public class TaskController : Controller
 {
     private readonly ITaskService service;
+    private readonly IMapper mapper;
 
-    public TaskController(ITaskService service)
+    public TaskController(ITaskService service, IMapper mapper)
     {
         this.service = service;
+        this.mapper = mapper;
     }
 
     [HttpGet("/Task/{id}")]
     public IActionResult GetTask(int id)
     {
         var task = this.service.GetTask(id);
-        return this.Ok(new TaskModel
-        {
-            Id = task.Id,
-            Title = task.Title,
-            TodoListId = task.TodoListId,
-            Status = (Models.TaskStatus)task.Status,
-            UserId = task.UserId,
-        });
+        return this.Ok(this.mapper.Map<TaskModel>(task));
     }
 
     [HttpGet("Task/AllTasks")]
     public IActionResult GetAllTasks()
     {
         var tasks = this.service.GetAllTasks();
-        return this.Ok(tasks);
+        return this.Ok(this.mapper.Map<TaskModel>(tasks));
     }
 
     [HttpGet("/Tasks/{todoListID}")]
     public IActionResult Index(int todoListID)
     {
         var tasks = this.service.GetTasks(todoListID);
-        var taskModel = tasks.Select(t => new TaskModel
-        {
-            Id = t.Id,
-            Title = t.Title,
-            TodoListId = t.TodoListId,
-            Status = (Models.TaskStatus)t.Status,
-        });
+        var taskModel = tasks.Select(t => this.mapper.Map<TaskModel>(t));
 
         return this.Ok(taskModel);
     }
@@ -52,14 +42,7 @@ public class TaskController : Controller
     [HttpPost("/Task/Create")]
     public IActionResult Create([FromBody] TaskModel task)
     {
-        this.service.CreateTask(new Task
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Status = (Services.TaskStatus)task.Status,
-            TodoListId = task.TodoListId,
-            UserId = task.UserId,
-        });
+        this.service.CreateTask(this.mapper.Map<Task>(task));
         return this.Ok(task);
     }
 
@@ -73,14 +56,7 @@ public class TaskController : Controller
     [HttpPost("/Task/Update/{task.Id}")]
     public IActionResult Update([FromBody] TaskModel task)
     {
-        this.service.UpdateTask(new Task
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Status = (Services.TaskStatus)task.Status,
-            TodoListId = task.TodoListId,
-            UserId = task.UserId,
-        });
+        this.service.UpdateTask(this.mapper.Map<Task>(task));
         return this.Ok();
     }
 

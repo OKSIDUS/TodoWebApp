@@ -1,4 +1,4 @@
-namespace TodoListApp.Services;
+namespace TodoListApp.Services.interfaces;
 public interface ITaskService
 {
     public IEnumerable<Task> GetTasks(int todoListID);

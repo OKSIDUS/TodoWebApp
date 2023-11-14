@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TodoListApp.Services.Database.Entity;
+using TodoListApp.Services.interfaces;
 
 namespace TodoListApp.Services.Database.Services;
 public class UserDatabaseService : IUserService

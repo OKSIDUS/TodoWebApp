@@ -1,4 +1,4 @@
-namespace TodoListApp.Services;
+namespace TodoListApp.Services.interfaces;
 public interface IUserService
 {
     public IEnumerable<Task> GetUserTasks(int userId);

@@ -1,16 +1,18 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
-using TodoListApp.Services;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApp.Controllers;
 public class TaskController : Controller
 {
     private readonly ITaskServiceAsync service;
+    private readonly IMapper mapper;
 
-    public TaskController(ITaskServiceAsync service)
+    public TaskController(ITaskServiceAsync service, IMapper mapper)
     {
         this.service = service;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -20,14 +22,7 @@ public class TaskController : Controller
         this.ViewBag.TodoListId = todoListId;
         var tasks = await this.service.GetTasksAsync(id);
 
-        var tasksModel = tasks.Select(t => new TaskModel
-        {
-            Id = t.Id,
-            Title = t.Title,
-            TodoListId = t.TodoListId,
-            UserId = t.UserId,
-            Status = (WebApi.Models.TaskStatus)t.Status,
-        });
+        var tasksModel = tasks.Select(t => this.mapper.Map<TaskModel>(t));
 
         return this.View(tasksModel);
     }
@@ -44,13 +39,7 @@ public class TaskController : Controller
     [Route("/Task/CreateTask")]
     public async Task<IActionResult> CreateTask(TaskModel task)
     {
-        var result = await this.service.CreateAsync(new Services.Task
-        {
-            Title = task.Title,
-            TodoListId = task.TodoListId,
-            UserId = 0,
-            Status = Services.TaskStatus.Active,
-        });
+        var result = await this.service.CreateAsync(this.mapper.Map<Services.Task>(task));
 
         if (result)
         {
@@ -68,14 +57,7 @@ public class TaskController : Controller
             return this.BadRequest();
         }
 
-        return this.View(new TaskModel
-        {
-            Title = task.Title,
-            Id = task.Id,
-            TodoListId = task.TodoListId,
-            Status = (WebApi.Models.TaskStatus)task.Status,
-            UserId = task.UserId,
-        });
+        return this.View(this.mapper.Map<TaskModel>(task));
     }
 
     public async Task<IActionResult> DeleteTask(int id, int todoListId)
@@ -95,27 +77,13 @@ public class TaskController : Controller
     public async Task<IActionResult> EditTask(int id)
     {
         var task = await this.service.GetTaskAsync(id);
-        return this.View(new TaskModel
-        {
-            Id = task.Id,
-            Title = task.Title,
-            TodoListId = task.TodoListId,
-            Status = (WebApi.Models.TaskStatus)task.Status,
-            UserId = task.UserId,
-        });
+        return this.View(this.mapper.Map<TaskModel>(task));
     }
 
     [HttpPost("/Task/Edit")]
     public async Task<IActionResult> EditTask(TaskModel task)
     {
-        var result = await this.service.UpdateAsync(new Services.Task
-        {
-            Id = task.Id,
-            Title = task.Title,
-            UserId = task.UserId,
-            TodoListId = task.TodoListId,
-            Status = (Services.TaskStatus)task.Status,
-        });
+        var result = await this.service.UpdateAsync(this.mapper.Map<Services.Task>(task));
 
         if (!result)
         {

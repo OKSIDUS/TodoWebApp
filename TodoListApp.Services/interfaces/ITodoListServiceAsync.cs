@@ -1,4 +1,4 @@
-namespace TodoListApp.Services;
+namespace TodoListApp.Services.interfaces;
 public interface ITodoListServiceAsync
 {
     public Task<IEnumerable<TodoList>> GetTodoListsAsync();

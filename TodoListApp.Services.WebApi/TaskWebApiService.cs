@@ -1,11 +1,15 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using TodoListApp.Common;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi;
 public class TaskWebApiService : ITaskServiceAsync
 {
+
+    private readonly MappingProfile mapping = new MappingProfile();
     private static readonly HttpClient httpClient = new()
     {
         BaseAddress = new Uri("https://localhost:7071"),

@@ -1,4 +1,5 @@
 using TodoListApp.Services.Database.Entity;
+using TodoListApp.Services.interfaces;
 
 namespace TodoListApp.Services.Database.Services;
 public class TaskDatabaseService : ITaskService
@@ -94,12 +95,18 @@ public class TaskDatabaseService : ITaskService
     public void UpdateTask(Task task)
     {
         var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
-        taskEntity.Id = task.Id;
-        taskEntity.Title = task.Title;
-        taskEntity.Status = task.Status;
-        taskEntity.TodoListId = task.TodoListId;
-        taskEntity.UserId = task.UserId;
-        this.context.Tasks.Update(taskEntity);
-        this.context.SaveChanges();
+
+        if (task != null)
+        {
+            taskEntity.Id = task.Id;
+            taskEntity.Title = task.Title;
+            taskEntity.Status = task.Status;
+            taskEntity.TodoListId = task.TodoListId;
+            taskEntity.UserId = task.UserId;
+
+            _ = this.context.Tasks.Update(taskEntity);
+
+            _ = this.context.SaveChanges();
+        }
     }
 }

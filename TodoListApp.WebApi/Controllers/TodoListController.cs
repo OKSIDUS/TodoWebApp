@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers;
@@ -8,21 +10,19 @@ public class TodoListController : Controller
 {
     private readonly ITodoListService todoListService;
 
-    public TodoListController(ITodoListService todoListService)
+    private readonly IMapper mapper;
+
+    public TodoListController(ITodoListService todoListService, IMapper mapper)
     {
         this.todoListService = todoListService;
+        this.mapper = mapper;
     }
 
     [HttpGet("/")]
-    public IActionResult Index()
+    public IActionResult GetAll()
     {
         var todoLists = this.todoListService.GetTodoLists();
-        var todoList = todoLists.Select(task => new TodoList
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Description = task.Description,
-        });
+        var todoList = todoLists.Select(task => this.mapper.Map<TodoListModel>(task));
         return this.Ok(todoList);
     }
 
@@ -30,12 +30,7 @@ public class TodoListController : Controller
     public IActionResult GetTodoList(int id)
     {
         var todolist = this.todoListService.GetTodoList(id);
-        var todoListModel = new TodoList
-        {
-            Id = id,
-            Title = todolist.Title,
-            Description = todolist.Description,
-        };
+        var todoListModel = this.mapper.Map<TodoListModel>(todolist);
         return this.Ok(todoListModel);
     }
 
@@ -48,12 +43,7 @@ public class TodoListController : Controller
         }
         else
         {
-            var todo = new TodoList
-            {
-                Id = todoList.Id,
-                Title = todoList.Title,
-                Description = todoList.Description,
-            };
+            var todo = this.mapper.Map<TodoList>(todoList);
 
             this.todoListService.CreateTodoList(todo);
             return this.Ok(todo);
@@ -69,12 +59,7 @@ public class TodoListController : Controller
         }
         else
         {
-            var todo = new TodoList
-            {
-                Id = todoList.Id,
-                Title = todoList.Title,
-                Description = todoList.Description,
-            };
+            var todo = this.mapper.Map<TodoList>(todoList);
 
             this.todoListService.UpdateTodoList(todo);
             return this.Ok(todo);

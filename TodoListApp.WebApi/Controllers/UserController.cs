@@ -31,7 +31,7 @@ public class UserController : Controller
     }
 
     [HttpGet("GetUser")]
-    public IActionResult GetUser(int userId)
+    public IActionResult GetUserInfo(int userId)
     {
         var user = this.service.GetUser(userId);
         return this.Ok(user);

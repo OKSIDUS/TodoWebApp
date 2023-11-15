@@ -14,28 +14,29 @@ public class TaskDatabaseService : ITaskService
         this.mapper = mapper;
     }
 
-    public void CreateTask(Task task)
+    public void CreateTask(Task? task)
     {
-        this.context.Tasks.Add(new TaskEntity
+        if (task != null)
         {
-            Title = task.Title,
-            TodoListId = task.TodoListId,
-            Status = task.Status,
-        });
+            this.context.Tasks.Add(new TaskEntity
+            {
+                Title = task.Title,
+                TodoListId = task.TodoListId,
+                Status = task.Status,
+            });
 
-        this.context.SaveChanges();
+            this.context.SaveChanges();
+        }
     }
 
     public void DeleteTask(int id)
     {
         var taskEntity = this.context.Tasks.Where(t => t.Id == id).FirstOrDefault();
-        if (taskEntity is null)
+        if (taskEntity != null)
         {
-            throw new ArgumentNullException(nameof(id));
+            this.context.Tasks.Remove(taskEntity);
+            this.context.SaveChanges();
         }
-
-        this.context.Tasks.Remove(taskEntity);
-        this.context.SaveChanges();
     }
 
     public IEnumerable<Task> GetAllTasks()
@@ -44,9 +45,14 @@ public class TaskDatabaseService : ITaskService
         return taskEnity.Select(t => this.mapper.Map<Task>(t));
     }
 
-    public Task GetTask(int id)
+    public Task? GetTask(int id)
     {
         var task = this.context.Tasks.Where(t => t.Id == id).FirstOrDefault();
+        if (task is null)
+        {
+            return null;
+        }
+
         return this.mapper.Map<Task>(task);
     }
 
@@ -59,27 +65,29 @@ public class TaskDatabaseService : ITaskService
     public void ShareTask(int taskId, int userId)
     {
         var task = this.GetTask(taskId);
-        if (this.context.Users.Where(u => u.Id == userId).FirstOrDefault() == null)
+
+        if ((this.context.Users.Where(u => u.Id == userId).FirstOrDefault() != null) && task != null)
         {
-            throw new ArgumentNullException(nameof(userId));
-        }
-
-        this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
-
-        this.context.SaveChanges();
-    }
-
-    public void UpdateTask(Task task)
-    {
-        var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
-
-        if (taskEntity != null)
-        {
-            this.mapper.Map(task, taskEntity);
-
-            this.context.Tasks.Update(taskEntity);
+            this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
 
             this.context.SaveChanges();
+        }
+    }
+
+    public void UpdateTask(Task? task)
+    {
+        if (task != null)
+        {
+            var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
+
+            if (taskEntity != null)
+            {
+                this.mapper.Map(task, taskEntity);
+
+                this.context.Tasks.Update(taskEntity);
+
+                this.context.SaveChanges();
+            }
         }
     }
 }

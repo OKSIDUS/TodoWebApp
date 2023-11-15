@@ -3,7 +3,7 @@ public interface ITodoListServiceAsync
 {
     public Task<IEnumerable<TodoList>> GetTodoListsAsync();
 
-    public Task<TodoList> GetTodoListAsync(int id);
+    public Task<TodoList?> GetTodoListAsync(int id);
 
     public Task<bool> RemoveTodoListAsync(int id);
 

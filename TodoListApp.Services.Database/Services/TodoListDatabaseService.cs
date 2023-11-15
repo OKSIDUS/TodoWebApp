@@ -14,15 +14,18 @@ public class TodoListDatabaseService : ITodoListService
         this.mapper = mapper;
     }
 
-    public void CreateTodoList(TodoList todoList)
+    public void CreateTodoList(TodoList? todoList)
     {
-        var entity = new TodoListEntity
+        if (todoList != null)
         {
-            Title = todoList.Title,
-            Description = todoList.Description,
-        };
-        this.dbContext.Add(entity);
-        this.dbContext.SaveChanges();
+            var entity = new TodoListEntity
+            {
+                Title = todoList.Title,
+                Description = todoList.Description,
+            };
+            this.dbContext.Add(entity);
+            this.dbContext.SaveChanges();
+        }
     }
 
     public TodoList? GetTodoList(int id)
@@ -60,13 +63,9 @@ public class TodoListDatabaseService : ITodoListService
             throw new ArgumentNullException(nameof(todoList));
         }
 
-        if (todoList.Id == 0)
+        var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
+        if (todoListEntity != null)
         {
-            this.CreateTodoList(todoList);
-        }
-        else
-        {
-            var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
             this.mapper.Map(todoList, todoListEntity);
 
             this.dbContext.Update(todoListEntity);

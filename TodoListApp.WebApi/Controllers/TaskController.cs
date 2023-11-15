@@ -31,7 +31,7 @@ public class TaskController : Controller
     }
 
     [HttpGet("/Tasks/{todoListID}")]
-    public IActionResult Index(int todoListID)
+    public IActionResult GetAllTaskFromTodoList(int todoListID)
     {
         var tasks = this.service.GetTasks(todoListID);
         var taskModel = tasks.Select(t => this.mapper.Map<TaskModel>(t));

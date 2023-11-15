@@ -16,9 +16,12 @@ public class UserDatabaseService : IUserService
 
     public void CreateUser(User user)
     {
-        this.context.Users.Add(new UserEntity { Name = user.Name, Password = user.Password });
+        if (user != null)
+        {
+            this.context.Users.Add(new UserEntity { Name = user.Name, Password = user.Password });
 
-        this.context.SaveChanges();
+            this.context.SaveChanges();
+        }
     }
 
     public User GetUser(int userId)
@@ -46,21 +49,17 @@ public class UserDatabaseService : IUserService
 
     public void UpdateUser(User user)
     {
-        if (user is null)
+        if (user != null)
         {
-            throw new ArgumentNullException(nameof(user));
+            var userEntity = this.context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+            if (userEntity != null)
+            {
+                this.mapper.Map(user, userEntity);
+
+                this.context.Users.Update(userEntity);
+
+                this.context.SaveChanges();
+            }
         }
-
-        if (user.Id == 0)
-        {
-            this.CreateUser(user);
-        }
-
-        var userEntity = this.context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-        this.mapper.Map(user, userEntity);
-
-        this.context.Users.Update(userEntity);
-
-        this.context.SaveChanges();
     }
 }

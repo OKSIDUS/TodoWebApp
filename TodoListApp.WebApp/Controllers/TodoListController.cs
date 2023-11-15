@@ -57,8 +57,13 @@ public class TodoListController : Controller
     }
 
     [HttpPost("/edit")]
-    public async Task<IActionResult> Edit(TodoListModel todoList)
+    public async Task<IActionResult> Edit(TodoListModel? todoList)
     {
+        if (todoList is null)
+        {
+            return this.BadRequest();
+        }
+
         var result = await this.service.UpdateTodoListAsync(this.mapper.Map<TodoList>(todoList));
 
         if (!result)
@@ -69,7 +74,6 @@ public class TodoListController : Controller
         return this.View(todoList);
     }
 
-
     [HttpGet("/create")]
     public IActionResult Create()
     {
@@ -77,8 +81,13 @@ public class TodoListController : Controller
     }
 
     [HttpPost("/create")]
-    public async Task<IActionResult> Create(TodoListModel todoList)
+    public async Task<IActionResult> Create(TodoListModel? todoList)
     {
+        if (todoList is null)
+        {
+            return this.BadRequest();
+        }
+
         var result = await this.service.CreateTodoListAsync(this.mapper.Map<TodoList>(todoList));
 
         if (!result)

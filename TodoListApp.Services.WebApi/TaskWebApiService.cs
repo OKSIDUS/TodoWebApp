@@ -8,7 +8,7 @@ using TodoListApp.WebApi.Models;
 namespace TodoListApp.Services.WebApi;
 public class TaskWebApiService : ITaskServiceAsync
 {
-    private static readonly HttpClient httpClient = new()
+    private static readonly HttpClient HttpClient = new()
     {
         BaseAddress = new Uri("https://localhost:7071"),
     };
@@ -20,13 +20,18 @@ public class TaskWebApiService : ITaskServiceAsync
         this.mapper = mapper;
     }
 
-    public async Task<bool> CreateAsync(Task task)
+    public async Task<bool> CreateAsync(Task? task)
     {
+        if (task is null)
+        {
+            return false;
+        }
+
         var json = JsonSerializer.Serialize(this.mapper.Map<TaskModel>(task));
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync("/Task/Create", content);
+        var response = await HttpClient.PostAsync("/Task/Create", content);
 
         if (response.IsSuccessStatusCode)
         {
@@ -38,7 +43,7 @@ public class TaskWebApiService : ITaskServiceAsync
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var response = await httpClient.DeleteAsync($"/Task/Delete/{id}");
+        var response = await HttpClient.DeleteAsync($"/Task/Delete/{id}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -50,12 +55,15 @@ public class TaskWebApiService : ITaskServiceAsync
 
     public async Task<Task> GetTaskAsync(int id)
     {
-        var response = await httpClient.GetAsync($"/Task/{id}");
+        var response = await HttpClient.GetAsync($"/Task/{id}");
 
         if (response.IsSuccessStatusCode)
         {
             var task = await response.Content.ReadFromJsonAsync<Task>();
-            return task;
+            if (task != null)
+            {
+                return task;
+            }
         }
 
         return new Task();
@@ -63,24 +71,32 @@ public class TaskWebApiService : ITaskServiceAsync
 
     public async Task<IEnumerable<Task>> GetTasksAsync(int todoListID)
     {
-        var response = await httpClient.GetAsync($"/Tasks/{todoListID}");
+        var response = await HttpClient.GetAsync($"/Tasks/{todoListID}");
 
         if (response.IsSuccessStatusCode)
         {
-            var task = await response.Content.ReadFromJsonAsync<IEnumerable<Task>>();
-            return task;
+            var tasks = await response.Content.ReadFromJsonAsync<IEnumerable<Task>>();
+            if (tasks != null)
+            {
+                return tasks;
+            }
         }
 
         return new List<Task>();
     }
 
-    public async Task<bool> UpdateAsync(Task task)
+    public async Task<bool> UpdateAsync(Task? task)
     {
+        if (task is null)
+        {
+            return false;
+        }
+
         var json = JsonSerializer.Serialize(this.mapper.Map<TaskModel>(task));
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync($"/Task/Update/{task.Id}", content);
+        var response = await HttpClient.PostAsync($"/Task/Update/{task.Id}", content);
 
         if (response.IsSuccessStatusCode)
         {

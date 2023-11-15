@@ -5,7 +5,7 @@ public interface ITaskService
 
     public IEnumerable<Task> GetAllTasks();
 
-    public Task GetTask(int id);
+    public Task? GetTask(int id);
 
     public void CreateTask(Task task);
 

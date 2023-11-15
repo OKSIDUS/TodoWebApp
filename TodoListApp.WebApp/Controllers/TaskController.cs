@@ -39,6 +39,11 @@ public class TaskController : Controller
     [Route("/Task/CreateTask")]
     public async Task<IActionResult> CreateTask(TaskModel task)
     {
+        if (task is null)
+        {
+            return this.BadRequest();
+        }
+
         var result = await this.service.CreateAsync(this.mapper.Map<Services.Task>(task));
 
         if (result)
@@ -72,7 +77,6 @@ public class TaskController : Controller
         return this.BadRequest();
     }
 
-
     [HttpGet("/Task/Edit")]
     public async Task<IActionResult> EditTask(int id)
     {
@@ -83,6 +87,11 @@ public class TaskController : Controller
     [HttpPost("/Task/Edit")]
     public async Task<IActionResult> EditTask(TaskModel task)
     {
+        if (task is null)
+        {
+            return this.BadRequest();
+        }
+
         var result = await this.service.UpdateAsync(this.mapper.Map<Services.Task>(task));
 
         if (!result)

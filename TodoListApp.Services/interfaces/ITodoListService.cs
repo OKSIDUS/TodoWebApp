@@ -3,7 +3,7 @@ public interface ITodoListService
 {
     public IEnumerable<TodoList> GetTodoLists();
 
-    public TodoList GetTodoList(int id);
+    public TodoList? GetTodoList(int id);
 
     public void RemoveTodoList(int id);
 

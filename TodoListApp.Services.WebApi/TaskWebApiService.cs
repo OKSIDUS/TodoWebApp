@@ -1,29 +1,28 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using TodoListApp.Common;
+using AutoMapper;
 using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi;
 public class TaskWebApiService : ITaskServiceAsync
 {
-
-    private readonly MappingProfile mapping = new MappingProfile();
     private static readonly HttpClient httpClient = new()
     {
         BaseAddress = new Uri("https://localhost:7071"),
     };
 
+    private readonly IMapper mapper;
+
+    public TaskWebApiService(IMapper mapper)
+    {
+        this.mapper = mapper;
+    }
+
     public async Task<bool> CreateAsync(Task task)
     {
-        var json = JsonSerializer.Serialize(new TaskModel
-        {
-            Title = task.Title,
-            UserId = task.UserId,
-            Status = (TodoListApp.WebApi.Models.TaskStatus)task.Status,
-            TodoListId = task.TodoListId,
-        });
+        var json = JsonSerializer.Serialize(this.mapper.Map<TaskModel>(task));
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -77,14 +76,7 @@ public class TaskWebApiService : ITaskServiceAsync
 
     public async Task<bool> UpdateAsync(Task task)
     {
-        var json = JsonSerializer.Serialize(new TaskModel
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Status = (TodoListApp.WebApi.Models.TaskStatus)task.Status,
-            UserId = task.UserId,
-            TodoListId = task.TodoListId,
-        });
+        var json = JsonSerializer.Serialize(this.mapper.Map<TaskModel>(task));
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 

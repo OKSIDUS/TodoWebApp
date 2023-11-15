@@ -1,25 +1,27 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using AutoMapper;
 using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi;
 public class TodoListWebApiService : ITodoListServiceAsync
 {
+    private readonly IMapper mapper;
     private static readonly HttpClient httpClient = new()
     {
         BaseAddress = new Uri("https://localhost:7071"),
     };
 
+    public TodoListWebApiService(IMapper mapper)
+    {
+        this.mapper = mapper;
+    }
+
     public async Task<bool> CreateTodoListAsync(TodoList todoList)
     {
-        var json = JsonSerializer.Serialize(new TodoListModel
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-        });
+        var json = JsonSerializer.Serialize(this.mapper.Map<TodoListModel>(todoList));
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         var response = await httpClient.PostAsync("/TodoLists/Create", content);
@@ -76,12 +78,7 @@ public class TodoListWebApiService : ITodoListServiceAsync
 
     public async Task<bool> UpdateTodoListAsync(TodoList todoList)
     {
-        var json = JsonSerializer.Serialize(new TodoListModel
-        {
-            Id = todoList.Id,
-            Title = todoList.Title,
-            Description = todoList.Description,
-        });
+        var json = JsonSerializer.Serialize(this.mapper.Map<TodoListModel>(todoList));
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         var repsonse = await httpClient.PostAsync($"/TodoLists/Update/{todoList.Id}", content);

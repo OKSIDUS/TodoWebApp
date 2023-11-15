@@ -1,3 +1,4 @@
+using AutoMapper;
 using TodoListApp.Services.Database.Entity;
 using TodoListApp.Services.interfaces;
 
@@ -5,17 +6,18 @@ namespace TodoListApp.Services.Database.Services;
 public class TodoListDatabaseService : ITodoListService
 {
     private readonly TodoListDbContext dbContext;
+    private readonly IMapper mapper;
 
-    public TodoListDatabaseService(TodoListDbContext dbContext)
+    public TodoListDatabaseService(TodoListDbContext dbContext, IMapper mapper)
     {
         this.dbContext = dbContext;
+        this.mapper = mapper;
     }
 
     public void CreateTodoList(TodoList todoList)
     {
         var entity = new TodoListEntity
         {
-            //Id = todoList.Id,
             Title = todoList.Title,
             Description = todoList.Description,
         };
@@ -23,37 +25,22 @@ public class TodoListDatabaseService : ITodoListService
         _ = this.dbContext.SaveChanges();
     }
 
-    public TodoList GetTodoList(int id)
+    public TodoList? GetTodoList(int id)
     {
         var todoList = this.dbContext.TodoLists.Where(td => td.Id == id).FirstOrDefault();
 
         if (todoList != null)
         {
-            return new TodoList
-            {
-                Id = todoList.Id,
-                Title = todoList.Title,
-                Description = todoList.Description,
-            };
+            return this.mapper.Map<TodoList>(todoList);
         }
 
-        return new TodoList
-        {
-            Id = id,
-            Title = string.Empty,
-            Description = string.Empty,
-        };
+        return null;
     }
 
     public IEnumerable<TodoList> GetTodoLists()
     {
         var todoLists = this.dbContext.TodoLists.ToList();
-        return todoLists.Select(t => new TodoList
-        {
-            Id = t.Id,
-            Title = t.Title,
-            Description = t.Description,
-        });
+        return todoLists.Select(t => this.mapper.Map<TodoList>(t));
     }
 
     public void RemoveTodoList(int id)
@@ -86,8 +73,7 @@ public class TodoListDatabaseService : ITodoListService
         else
         {
             var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
-            todoListEntity.Title = todoList.Title;
-            todoListEntity.Description = todoList.Description;
+            this.mapper.Map(todoList, todoListEntity);
 
             _ = this.dbContext.Update(todoListEntity);
 

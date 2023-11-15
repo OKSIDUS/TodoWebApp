@@ -1,3 +1,4 @@
+using AutoMapper;
 using TodoListApp.Services.Database.Entity;
 using TodoListApp.Services.interfaces;
 
@@ -5,10 +6,12 @@ namespace TodoListApp.Services.Database.Services;
 public class TaskDatabaseService : ITaskService
 {
     private readonly TodoListDbContext context;
+    private readonly IMapper mapper;
 
-    public TaskDatabaseService(TodoListDbContext context)
+    public TaskDatabaseService(TodoListDbContext context, IMapper mapper)
     {
         this.context = context;
+        this.mapper = mapper;
     }
 
     public void CreateTask(Task task)
@@ -38,38 +41,19 @@ public class TaskDatabaseService : ITaskService
     public IEnumerable<Task> GetAllTasks()
     {
         var taskEnity = this.context.Tasks.ToList();
-        return taskEnity.Select(t => new Task
-        {
-            Id = t.Id,
-            Title = t.Title,
-            TodoListId = t.TodoListId,
-            Status = t.Status,
-            UserId = t.UserId,
-        });
+        return taskEnity.Select(t => this.mapper.Map<Task>(t));
     }
 
     public Task GetTask(int id)
     {
         var task = this.context.Tasks.Where(t => t.Id == id).FirstOrDefault();
-        return new Task
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Status = task.Status,
-            TodoListId = task.TodoListId,
-        };
+        return this.mapper.Map<Task>(task);
     }
 
     public IEnumerable<Task> GetTasks(int todoListID)
     {
         var tasks = this.context.Tasks.Where(t => t.TodoListId == todoListID).ToList();
-        return tasks.Select(t => new Task
-        {
-            Id = t.Id,
-            Title = t.Title,
-            TodoListId = t.TodoListId,
-            Status = t.Status,
-        });
+        return tasks.Select(t => this.mapper.Map<Task>(t));
     }
 
     public void ShareTask(int taskId, int userId)
@@ -80,14 +64,7 @@ public class TaskDatabaseService : ITaskService
             throw new ArgumentNullException(nameof(userId));
         }
 
-        _ = this.context.Tasks.Update(new TaskEntity
-        {
-            Id = taskId,
-            Title = task.Title,
-            Status = task.Status,
-            TodoListId = task.TodoListId,
-            UserId = userId,
-        });
+        _ = this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
 
         _ = this.context.SaveChanges();
     }
@@ -96,13 +73,9 @@ public class TaskDatabaseService : ITaskService
     {
         var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
 
-        if (task != null)
+        if (taskEntity != null)
         {
-            taskEntity.Id = task.Id;
-            taskEntity.Title = task.Title;
-            taskEntity.Status = task.Status;
-            taskEntity.TodoListId = task.TodoListId;
-            taskEntity.UserId = task.UserId;
+            this.mapper.Map(task, taskEntity);
 
             _ = this.context.Tasks.Update(taskEntity);
 

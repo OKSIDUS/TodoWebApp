@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using TodoListApp.Services.Database.Entity;
 using TodoListApp.Services.interfaces;
 
@@ -6,17 +6,18 @@ namespace TodoListApp.Services.Database.Services;
 public class UserDatabaseService : IUserService
 {
     private readonly TodoListDbContext context;
+    private readonly IMapper mapper;
 
-    public UserDatabaseService(TodoListDbContext context)
+    public UserDatabaseService(TodoListDbContext context, IMapper mapper)
     {
         this.context = context;
+        this.mapper = mapper;
     }
 
     public void CreateUser(User user)
     {
         _ = this.context.Users.Add(new UserEntity
         {
-            //Id = user.Id,
             Name = user.Name,
             Password = user.Password,
         });
@@ -26,42 +27,25 @@ public class UserDatabaseService : IUserService
 
     public User GetUser(int userId)
     {
-        var taskEntity = this.context.Users.Where(u => u.Id == userId).FirstOrDefault();
-        if (taskEntity is null)
+        var userEntity = this.context.Users.Where(u => u.Id == userId).FirstOrDefault();
+        if (userEntity is null)
         {
             throw new ArgumentNullException(nameof(userId));
         }
 
-        return new User
-        {
-            Id = taskEntity.Id,
-            Name = taskEntity.Name,
-            Password = taskEntity.Password,
-        };
+        return this.mapper.Map<User>(userEntity);
     }
 
     public IEnumerable<User> GetUsers()
     {
         var users = this.context.Users.ToList();
-        return users.Select(u => new User
-        {
-            Id = u.Id,
-            Name = u.Name,
-            Password = u.Password,
-        });
+        return users.Select(u => this.mapper.Map<User>(u));
     }
 
     public IEnumerable<Task> GetUserTasks(int userId)
     {
         var tasks = this.context.Tasks.Where(t => t.UserId == userId).ToList();
-        return tasks.Select(t => new Task
-        {
-            Id = t.Id,
-            Title = t.Title,
-            Status = t.Status,
-            TodoListId = t.TodoListId,
-            UserId = t.UserId,
-        });
+        return tasks.Select(t => this.mapper.Map<Task>(t));
     }
 
     public void UpdateUser(User user)
@@ -77,8 +61,7 @@ public class UserDatabaseService : IUserService
         }
 
         var userEntity = this.context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-        userEntity.Name = user.Name;
-        userEntity.Password = user.Password;
+        this.mapper.Map(user, userEntity);
 
         _ = this.context.Users.Update(userEntity);
 

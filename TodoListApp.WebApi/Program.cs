@@ -1,8 +1,7 @@
-using TodoListApp.Services.Database;
 using Microsoft.EntityFrameworkCore;
-using TodoListApp.Services.Database.Services;
-using AutoMapper;
 using TodoListApp.Common;
+using TodoListApp.Services.Database;
+using TodoListApp.Services.Database.Services;
 using TodoListApp.Services.interfaces;
 
 namespace TodoListApp.WebApi;
@@ -22,15 +21,15 @@ public class Program
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-        _ = builder.Services.AddDbContext<TodoListDbContext>((services, options) =>
+        builder.Services.AddDbContext<TodoListDbContext>((services, options) =>
         {
             var configuration = services.GetRequiredService<IConfiguration>();
-            _ = options.UseSqlServer(configuration.GetConnectionString("TodoList"));
+            options.UseSqlServer(configuration.GetConnectionString("TodoList"));
         });
 
-        _ = builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
-        _ = builder.Services.AddScoped<ITaskService, TaskDatabaseService>();
-        _ = builder.Services.AddScoped<IUserService, UserDatabaseService>();
+        builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
+        builder.Services.AddScoped<ITaskService, TaskDatabaseService>();
+        builder.Services.AddScoped<IUserService, UserDatabaseService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

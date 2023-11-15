@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -20,7 +20,7 @@ namespace TodoListApp.Services.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDone = table.Column<bool>(type: "bit", nullable: false),
-                    TodoListEntityId = table.Column<int>(type: "int", nullable: true)
+                    TodoListEntityId = table.Column<int>(type: "int", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace TodoListApp.Services.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDone = table.Column<bool>(type: "bit", nullable: false)
+                    IsDone = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {

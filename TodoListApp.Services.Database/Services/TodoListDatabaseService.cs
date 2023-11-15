@@ -21,8 +21,8 @@ public class TodoListDatabaseService : ITodoListService
             Title = todoList.Title,
             Description = todoList.Description,
         };
-        _ = this.dbContext.Add(entity);
-        _ = this.dbContext.SaveChanges();
+        this.dbContext.Add(entity);
+        this.dbContext.SaveChanges();
     }
 
     public TodoList? GetTodoList(int id)
@@ -51,11 +51,11 @@ public class TodoListDatabaseService : ITodoListService
             var tasks = this.dbContext.Tasks.Where(t => t.TodoListId == id).ToList();
             foreach (var task in tasks)
             {
-                _ = this.dbContext.Tasks.Remove(task);
+                this.dbContext.Tasks.Remove(task);
             }
 
-            _ = this.dbContext.TodoLists.Remove(todoListEntity);
-            _ = this.dbContext.SaveChanges();
+            this.dbContext.TodoLists.Remove(todoListEntity);
+            this.dbContext.SaveChanges();
         }
     }
 
@@ -75,9 +75,9 @@ public class TodoListDatabaseService : ITodoListService
             var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == todoList.Id).FirstOrDefault();
             this.mapper.Map(todoList, todoListEntity);
 
-            _ = this.dbContext.Update(todoListEntity);
+            this.dbContext.Update(todoListEntity);
 
-            _ = this.dbContext.SaveChanges();
+            this.dbContext.SaveChanges();
         }
     }
 }

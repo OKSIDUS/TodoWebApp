@@ -10,5 +10,4 @@ public interface ITodoListService
     public void UpdateTodoList(TodoList todoList);
 
     public void CreateTodoList(TodoList todoList);
-
 }

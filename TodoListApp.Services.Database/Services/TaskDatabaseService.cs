@@ -16,14 +16,14 @@ public class TaskDatabaseService : ITaskService
 
     public void CreateTask(Task task)
     {
-        _ = this.context.Tasks.Add(new TaskEntity
+        this.context.Tasks.Add(new TaskEntity
         {
             Title = task.Title,
             TodoListId = task.TodoListId,
             Status = task.Status,
         });
 
-        _ = this.context.SaveChanges();
+        this.context.SaveChanges();
     }
 
     public void DeleteTask(int id)
@@ -34,8 +34,8 @@ public class TaskDatabaseService : ITaskService
             throw new ArgumentNullException(nameof(id));
         }
 
-        _ = this.context.Tasks.Remove(taskEntity);
-        _ = this.context.SaveChanges();
+        this.context.Tasks.Remove(taskEntity);
+        this.context.SaveChanges();
     }
 
     public IEnumerable<Task> GetAllTasks()
@@ -64,9 +64,9 @@ public class TaskDatabaseService : ITaskService
             throw new ArgumentNullException(nameof(userId));
         }
 
-        _ = this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
+        this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
 
-        _ = this.context.SaveChanges();
+        this.context.SaveChanges();
     }
 
     public void UpdateTask(Task task)
@@ -77,9 +77,9 @@ public class TaskDatabaseService : ITaskService
         {
             this.mapper.Map(task, taskEntity);
 
-            _ = this.context.Tasks.Update(taskEntity);
+            this.context.Tasks.Update(taskEntity);
 
-            _ = this.context.SaveChanges();
+            this.context.SaveChanges();
         }
     }
 }

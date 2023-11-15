@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,7 +17,7 @@ namespace TodoListApp.Services.Database.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfTasks = table.Column<int>(type: "int", nullable: false),
-                    IsShared = table.Column<bool>(type: "bit", nullable: false)
+                    IsShared = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {

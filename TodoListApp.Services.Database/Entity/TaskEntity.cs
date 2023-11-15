@@ -8,7 +8,7 @@ public class TaskEntity
     [Key]
     public int Id { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     public int TodoListId { get; set; }
 

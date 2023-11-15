@@ -16,13 +16,9 @@ public class UserDatabaseService : IUserService
 
     public void CreateUser(User user)
     {
-        _ = this.context.Users.Add(new UserEntity
-        {
-            Name = user.Name,
-            Password = user.Password,
-        });
+        this.context.Users.Add(new UserEntity { Name = user.Name, Password = user.Password });
 
-        _ = this.context.SaveChanges();
+        this.context.SaveChanges();
     }
 
     public User GetUser(int userId)
@@ -63,8 +59,8 @@ public class UserDatabaseService : IUserService
         var userEntity = this.context.Users.Where(u => u.Id == user.Id).FirstOrDefault();
         this.mapper.Map(user, userEntity);
 
-        _ = this.context.Users.Update(userEntity);
+        this.context.Users.Update(userEntity);
 
-        _ = this.context.SaveChanges();
+        this.context.SaveChanges();
     }
 }

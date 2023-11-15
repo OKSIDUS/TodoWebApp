@@ -13,8 +13,8 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
-        _ = builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
-        _ = builder.Services.AddScoped<ITaskServiceAsync, TaskWebApiService>();
+        builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
+        builder.Services.AddScoped<ITaskServiceAsync, TaskWebApiService>();
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         var app = builder.Build();
 
@@ -37,7 +37,7 @@ public class Program
             name: "default",
             pattern: "{controller=TodoList}/{action=Index}");
 
-        _ = app.MapControllerRoute(
+        app.MapControllerRoute(
             name: "CreateTask",
             pattern: "Task/CreateTask/{todoListId:int}",
             defaults: new { controller = "Task", action = "CreateTask" });

@@ -48,12 +48,6 @@ public class TodoListDatabaseService : ITodoListService
         var todoListEntity = this.dbContext.TodoLists.Where(t => t.Id == id).FirstOrDefault();
         if (todoListEntity != null)
         {
-            var tasks = this.dbContext.Tasks.Where(t => t.TodoListId == id).ToList();
-            foreach (var task in tasks)
-            {
-                this.dbContext.Tasks.Remove(task);
-            }
-
             this.dbContext.TodoLists.Remove(todoListEntity);
             this.dbContext.SaveChanges();
         }

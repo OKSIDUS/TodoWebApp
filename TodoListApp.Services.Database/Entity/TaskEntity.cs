@@ -14,5 +14,5 @@ public class TaskEntity
 
     public TaskStatus Status { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 }

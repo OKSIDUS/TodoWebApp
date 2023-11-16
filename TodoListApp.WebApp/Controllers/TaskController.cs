@@ -20,11 +20,27 @@ public class TaskController : Controller
     {
         var todoListId = this.Request.Query["id"];
         this.ViewBag.TodoListId = todoListId;
-        var tasks = await this.service.GetTasksAsync(id);
 
-        var tasksModel = tasks.Select(t => this.mapper.Map<TaskModel>(t));
+        // Получите идентификатор пользователя из куков
+        var userIdFromCookieString = HttpContext.Request.Cookies["UserCookie"];
 
-        return this.View(tasksModel);
+        // Попробуйте преобразовать строку в int
+        if (int.TryParse(userIdFromCookieString, out int userIdFromCookie))
+        {
+            var tasks = await this.service.GetTasksAsync(id);
+
+            // Фильтрация заданий по идентификатору пользователя
+            var userTasks = tasks.Where(t => t.UserId == userIdFromCookie);
+
+            var tasksModel = userTasks.Select(t => this.mapper.Map<TaskModel>(t));
+
+            return this.View(tasksModel);
+        }
+        else
+        {
+            // Обработайте ситуацию, когда не удается преобразовать идентификатор пользователя в int
+            return this.BadRequest("Invalid UserId in the cookie");
+        }
     }
 
     [HttpGet]

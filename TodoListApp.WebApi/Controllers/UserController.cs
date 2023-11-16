@@ -50,4 +50,12 @@ public class UserController : Controller
         this.service.UpdateUser(this.mapper.Map<User>(user));
         return this.Ok();
     }
+
+    [HttpGet("User/Check/{username}/{password}")]
+    public IActionResult CheckUser(string username, string password)
+    {
+        var user = this.service.CheckUser(username, password);
+
+        return this.Ok(user ?? null);
+    }
 }

@@ -14,6 +14,17 @@ public class UserDatabaseService : IUserService
         this.mapper = mapper;
     }
 
+    public User? CheckUser(string name, string password)
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            var user = this.context.Users.Where(u => u.Name == name && u.Password == password).FirstOrDefault();
+            return this.mapper.Map<User?>(user ?? null);
+        }
+
+        return null;
+    }
+
     public void CreateUser(User user)
     {
         if (user != null)

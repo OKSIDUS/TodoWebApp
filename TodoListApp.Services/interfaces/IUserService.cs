@@ -11,4 +11,6 @@ public interface IUserService
 
     public void UpdateUser(User user);
 
+    public User? CheckUser(string name, string password);
+
 }

@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using TodoListApp.Common;
 using TodoListApp.Services.interfaces;
 using TodoListApp.Services.WebApi;
+using TodoListApp.WebApp.Controllers;
 
 namespace TodoListApp.WebApp;
 
@@ -15,7 +18,17 @@ public static class Program
 
         builder.Services.AddScoped<ITodoListServiceAsync, TodoListWebApiService>();
         builder.Services.AddScoped<ITaskServiceAsync, TaskWebApiService>();
+        builder.Services.AddScoped<IUserServiceAsync, UserWebApiService>();
         builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+                options.Cookie.Name = "UserCookie";
+                options.LoginPath = "/Account/Login";
+            });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -32,11 +45,12 @@ public static class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=TodoList}/{action=Index}");
+            pattern: "{controller=Account}/{action=Login}");
 
         app.MapControllerRoute(
             name: "CreateTask",

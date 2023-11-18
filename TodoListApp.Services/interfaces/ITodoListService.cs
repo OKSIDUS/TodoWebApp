@@ -1,7 +1,7 @@
 namespace TodoListApp.Services.interfaces;
 public interface ITodoListService
 {
-    public IEnumerable<TodoList> GetTodoLists();
+    public IEnumerable<TodoList> GetTodoLists(string createdBy);
 
     public TodoList? GetTodoList(int id);
 

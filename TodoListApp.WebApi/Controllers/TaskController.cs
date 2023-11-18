@@ -61,7 +61,7 @@ public class TaskController : Controller
     }
 
     [HttpPost("Task/Share")]
-    public IActionResult Share(int taskId, int userId)
+    public IActionResult Share(int taskId, string userId)
     {
         this.service.ShareTask(taskId, userId);
         return this.Ok();

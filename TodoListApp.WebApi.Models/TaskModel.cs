@@ -9,5 +9,5 @@ public class TaskModel
 
     public TaskStatus Status { get; set; }
 
-    public int UserId { get; set; }
+    public string SharedFor { get; set; } = string.Empty;
 }

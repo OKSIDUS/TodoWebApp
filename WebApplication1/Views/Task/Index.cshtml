@@ -1,0 +1,59 @@
+@model IEnumerable<TodoListApp.WebApi.Models.TaskModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateTask" asp-route-id="@ViewBag.TodoListId">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TodoListId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SharedFor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TodoListId)
+            </td>
+            <td style="@(item.Status == TodoListApp.WebApi.Models.TaskStatus.Overdue ? "color: red;" : "")">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SharedFor)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditTask", new { id = item.Id }) |
+                @Html.ActionLink("Details", "DetailsTask", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteTask", new { id = item.Id, todoListId = item.TodoListId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

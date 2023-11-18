@@ -23,6 +23,7 @@ public class TaskDatabaseService : ITaskService
                 Title = task.Title,
                 TodoListId = task.TodoListId,
                 Status = task.Status,
+                SharedFor = task.SharedFor,
             });
 
             this.context.SaveChanges();
@@ -62,14 +63,14 @@ public class TaskDatabaseService : ITaskService
         return tasks.Select(t => this.mapper.Map<Task>(t));
     }
 
-    public void ShareTask(int taskId, int userId)
+    public void ShareTask(int taskId, string sharedFor)
     {
         var task = this.GetTask(taskId);
 
-        if ((this.context.Users.Where(u => u.Id == userId).FirstOrDefault() != null) && task != null)
+        if (task != null)
         {
+            task.SharedFor = sharedFor;
             this.context.Tasks.Update(this.mapper.Map<TaskEntity>(task));
-
             this.context.SaveChanges();
         }
     }

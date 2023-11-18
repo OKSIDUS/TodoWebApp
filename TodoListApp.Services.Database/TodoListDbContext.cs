@@ -13,8 +13,6 @@ public class TodoListDbContext : DbContext
 
     public DbSet<TaskEntity> Tasks { get; set; }
 
-    public DbSet<UserEntity> Users { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TodoListEntity>()
@@ -23,12 +21,5 @@ public class TodoListDbContext : DbContext
             .HasForeignKey(e => e.TodoListId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<UserEntity>()
-            .HasMany<TaskEntity>()
-            .WithOne()
-            .HasForeignKey(e => e.UserId)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }

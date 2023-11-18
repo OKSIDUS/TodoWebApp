@@ -22,6 +22,7 @@ public class TodoListDatabaseService : ITodoListService
             {
                 Title = todoList.Title,
                 Description = todoList.Description,
+                CreatedBy = todoList.CreatedBy,
             };
             this.dbContext.Add(entity);
             this.dbContext.SaveChanges();
@@ -40,9 +41,9 @@ public class TodoListDatabaseService : ITodoListService
         return null;
     }
 
-    public IEnumerable<TodoList> GetTodoLists()
+    public IEnumerable<TodoList> GetTodoLists(string createdBy)
     {
-        var todoLists = this.dbContext.TodoLists.ToList();
+        var todoLists = this.dbContext.TodoLists.Where(td => td.CreatedBy == createdBy).ToList();
         return todoLists.Select(t => this.mapper.Map<TodoList>(t));
     }
 

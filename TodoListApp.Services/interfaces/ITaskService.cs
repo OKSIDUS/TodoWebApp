@@ -13,5 +13,5 @@ public interface ITaskService
 
     public void UpdateTask(Task task);
 
-    public void ShareTask(int taskId, int userId);
+    public void ShareTask(int taskId, string sharedFor);
 }

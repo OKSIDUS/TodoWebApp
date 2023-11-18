@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
 using TodoListApp.Services.interfaces;
@@ -16,6 +17,7 @@ public class TodoListController : Controller
         this.mapper = mapper;
     }
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         var todolists = await this.service.GetTodoListsAsync();

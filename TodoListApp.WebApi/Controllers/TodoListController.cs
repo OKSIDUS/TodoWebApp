@@ -18,10 +18,10 @@ public class TodoListController : Controller
         this.mapper = mapper;
     }
 
-    [HttpGet("/")]
-    public IActionResult GetAll()
+    [HttpGet("/{createdBy}")]
+    public IActionResult GetAll(string createdBy)
     {
-        var todoLists = this.todoListService.GetTodoLists();
+        var todoLists = this.todoListService.GetTodoLists(createdBy);
         var todoList = todoLists.Select(task => this.mapper.Map<TodoListModel>(task));
         return this.Ok(todoList);
     }

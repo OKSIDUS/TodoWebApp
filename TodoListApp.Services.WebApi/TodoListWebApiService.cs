@@ -57,9 +57,9 @@ public class TodoListWebApiService : ITodoListServiceAsync
         return null;
     }
 
-    public async Task<IEnumerable<TodoList>> GetTodoListsAsync()
+    public async Task<IEnumerable<TodoList>> GetTodoListsAsync(string createdBy)
     {
-        var response = await HttpClient.GetAsync("/");
+        var response = await HttpClient.GetAsync($"/{createdBy}");
 
         if (response.IsSuccessStatusCode)
         {

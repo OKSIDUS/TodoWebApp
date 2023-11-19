@@ -61,6 +61,12 @@ public class TaskDatabaseService : ITaskService
     public IEnumerable<Task> GetTasks(int todoListID)
     {
         var tasks = this.context.Tasks.Where(t => t.TodoListId == todoListID).ToList();
+        foreach(var task in tasks)
+        {
+            this.CheckDeadline(task);
+        }
+
+        this.context.SaveChanges();
         return tasks.Select(t => this.mapper.Map<Task>(t));
     }
 
@@ -80,6 +86,11 @@ public class TaskDatabaseService : ITaskService
     {
         if (task != null)
         {
+            if (task.Deadline < DateTime.Now && task.Status != TaskStatus.Done)
+            {
+                task.Status = TaskStatus.Overdue;
+            }
+
             var taskEntity = this.context.Tasks.Where(t => t.Id == task.Id).FirstOrDefault();
 
             if (taskEntity != null)
@@ -90,6 +101,15 @@ public class TaskDatabaseService : ITaskService
 
                 this.context.SaveChanges();
             }
+        }
+    }
+
+    private void CheckDeadline(TaskEntity task)
+    {
+        if (task.Deadline < DateTime.Now && task.Status != TaskStatus.Done)
+        {
+            task.Status = TaskStatus.Overdue;
+            this.context.Tasks.Update(task);
         }
     }
 }

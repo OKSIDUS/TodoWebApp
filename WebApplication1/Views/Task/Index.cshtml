@@ -49,6 +49,9 @@
                 @Html.DisplayFor(modelItem => item.SharedFor)
             </td>
             <td>
+                    @Html.DisplayFor(modelItem => item.Deadline)
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "EditTask", new { id = item.Id }) |
                 @Html.ActionLink("Details", "DetailsTask", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "DeleteTask", new { id = item.Id, todoListId = item.TodoListId })

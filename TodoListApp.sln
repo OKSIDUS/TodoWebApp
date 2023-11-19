@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		user-stories.md = user-stories.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApp", "TodoListApp.WebApp\TodoListApp.WebApp.csproj", "{892C76F1-FABA-4A28-88D8-33A956D66AB0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApi", "TodoListApp.WebApi\TodoListApp.WebApi.csproj", "{84ABEC7C-17FE-4AF5-9CAB-B5577DEAD552}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApi.Models", "TodoListApp.WebApi.Models\TodoListApp.WebApi.Models.csproj", "{3C631A4E-F762-4BD6-8FB7-9B296510D446}"
@@ -25,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.Services.Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.Common", "TodoListApp.Common\TodoListApp.Common.csproj", "{CF47AAAD-51C0-4F45-B2B7-B881DCDC15E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{78E9BE64-5BA2-42B7-A4FB-51145B95398E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApp", "WebApplication1\TodoListApp.WebApp.csproj", "{78E9BE64-5BA2-42B7-A4FB-51145B95398E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{892C76F1-FABA-4A28-88D8-33A956D66AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{892C76F1-FABA-4A28-88D8-33A956D66AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{892C76F1-FABA-4A28-88D8-33A956D66AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{892C76F1-FABA-4A28-88D8-33A956D66AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84ABEC7C-17FE-4AF5-9CAB-B5577DEAD552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84ABEC7C-17FE-4AF5-9CAB-B5577DEAD552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84ABEC7C-17FE-4AF5-9CAB-B5577DEAD552}.Release|Any CPU.ActiveCfg = Release|Any CPU

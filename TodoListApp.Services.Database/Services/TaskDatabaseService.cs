@@ -24,6 +24,7 @@ public class TaskDatabaseService : ITaskService
                 TodoListId = task.TodoListId,
                 Status = task.Status,
                 SharedFor = task.SharedFor,
+                Deadline = task.Deadline,
             });
 
             this.context.SaveChanges();

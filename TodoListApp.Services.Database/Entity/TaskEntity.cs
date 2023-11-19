@@ -15,4 +15,6 @@ public class TaskEntity
     public TaskStatus Status { get; set; }
 
     public string SharedFor { get; set; } = string.Empty;
+
+    public DateTime Deadline { get; set; } = DateTime.Now;
 }

@@ -109,4 +109,15 @@ public class TaskController : Controller
 
         return this.RedirectToAction("Index", new { id = task.TodoListId });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> AssignedTasks()
+    {
+        var user = await this.manager.GetUserAsync(this.User);
+        var tasks = await this.service.AssignedTasks(user.UserName);
+
+        var taskModels = tasks.Select(t => this.mapper.Map<TaskModel>(t));
+
+        return this.View(taskModels);
+    }
 }

@@ -14,4 +14,6 @@ public interface ITaskService
     public void UpdateTask(Task task);
 
     public void ShareTask(int taskId, string sharedFor);
+
+    public IEnumerable<Task> AssignedTasks(string sharedFor);
 }

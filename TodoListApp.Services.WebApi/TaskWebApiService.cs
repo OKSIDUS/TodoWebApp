@@ -20,6 +20,21 @@ public class TaskWebApiService : ITaskServiceAsync
         this.mapper = mapper;
     }
 
+    public async Task<IEnumerable<Task>> AssignedTasks(string sharedFor)
+    {
+        var response = await HttpClient.GetAsync($"/Task/AssignedTasks/{sharedFor}");
+        if (response.IsSuccessStatusCode)
+        {
+            var tasks = await response.Content.ReadFromJsonAsync<IEnumerable<Task>>();
+            if (tasks != null)
+            {
+                return tasks;
+            }
+        }
+
+        return new List<Task>();
+    }
+
     public async Task<bool> CreateAsync(Task? task)
     {
         if (task is null)

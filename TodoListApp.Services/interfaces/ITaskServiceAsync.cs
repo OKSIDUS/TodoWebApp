@@ -10,4 +10,6 @@ public interface ITaskServiceAsync
     public Task<bool> DeleteAsync(int id);
 
     public Task<bool> UpdateAsync(Task task);
+
+    public Task<IEnumerable<Task>> AssignedTasks(string sharedFor);
 }

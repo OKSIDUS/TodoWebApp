@@ -66,4 +66,14 @@ public class TaskController : Controller
         this.service.ShareTask(taskId, userId);
         return this.Ok();
     }
+
+    [HttpGet("/Task/AssignedTasks/{sharedFor}")]
+    public IActionResult GetAssignedTasks(string sharedFor)
+    {
+        var tasks = this.service.AssignedTasks(sharedFor);
+
+        var taskModels = tasks.Select(t => this.mapper.Map<TaskModel>(t));
+        return this.Ok(taskModels);
+
+    }
 }

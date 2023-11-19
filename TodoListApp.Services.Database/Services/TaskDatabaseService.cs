@@ -14,6 +14,13 @@ public class TaskDatabaseService : ITaskService
         this.mapper = mapper;
     }
 
+    public IEnumerable<Task> AssignedTasks(string sharedFor)
+    {
+        var tasks = this.context.Tasks.Where(t => t.SharedFor == sharedFor).ToList();
+        this.CheckDeadline(tasks);
+        return tasks.Select(t => this.mapper.Map<Task>(t));
+    }
+
     public void CreateTask(Task? task)
     {
         if (task != null)
@@ -61,12 +68,7 @@ public class TaskDatabaseService : ITaskService
     public IEnumerable<Task> GetTasks(int todoListID)
     {
         var tasks = this.context.Tasks.Where(t => t.TodoListId == todoListID).ToList();
-        foreach(var task in tasks)
-        {
-            this.CheckDeadline(task);
-        }
-
-        this.context.SaveChanges();
+        this.CheckDeadline(tasks);
         return tasks.Select(t => this.mapper.Map<Task>(t));
     }
 
@@ -104,12 +106,17 @@ public class TaskDatabaseService : ITaskService
         }
     }
 
-    private void CheckDeadline(TaskEntity task)
+    private void CheckDeadline(List<TaskEntity> tasks)
     {
-        if (task.Deadline < DateTime.Now && task.Status != TaskStatus.Done)
+        foreach (var task in tasks)
         {
-            task.Status = TaskStatus.Overdue;
-            this.context.Tasks.Update(task);
+            if (task.Deadline < DateTime.Now && task.Status != TaskStatus.Done)
+            {
+                task.Status = TaskStatus.Overdue;
+                this.context.Tasks.Update(task);
+            }
         }
+
+        this.context.SaveChanges();
     }
 }

@@ -1,14 +1,11 @@
-﻿@model IEnumerable<TodoListApp.WebApi.Models.TaskModel>
+@model IEnumerable<TodoListApp.WebApi.Models.TaskModel>
 
 @{
     ViewData["Title"] = "AssignedTask";
 }
 
-<h1>AssignedTask</h1>
+<h1>Assigned Task</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -55,9 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Deadline)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "EditTask", new {  id=item.Id })
             </td>
         </tr>
 }

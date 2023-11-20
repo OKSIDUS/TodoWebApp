@@ -13,7 +13,5 @@ public class MappingProfile : Profile
         this.CreateMap<Services.TaskStatus, WebApi.Models.TaskStatus>().ReverseMap();
         this.CreateMap<Services.Task, TaskEntity>().ReverseMap();
         this.CreateMap<Services.Task, TaskModel>().ReverseMap();
-        this.CreateMap<User, UserEntity>().ReverseMap();
-        this.CreateMap<User, UserModel>().ReverseMap();
     }
 }

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using TodoListApp.Common;
 using TodoListApp.Services.interfaces;
 using TodoListApp.Services.WebApi;
-using WebApplication1.Data;
+using TodoListApp.WebApp.Data;
 
-namespace WebApplication1;
-public class Program
+namespace TodoListApp.WebApp;
+public static class Program
 {
     public static void Main(string[] args)
     {

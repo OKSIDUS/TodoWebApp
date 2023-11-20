@@ -8,7 +8,7 @@ using TodoListApp.WebApi.Models;
 namespace TodoListApp.Services.WebApi;
 public class TodoListWebApiService : ITodoListServiceAsync
 {
-    private static readonly HttpClient HttpClient = new()
+    private static readonly HttpClient HttpClient = new ()
     {
         BaseAddress = new Uri("https://localhost:7071"),
     };

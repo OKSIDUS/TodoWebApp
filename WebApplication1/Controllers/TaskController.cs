@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
-namespace WebApplication1.Controllers;
+namespace TodoListApp.WebApp.Controllers;
 public class TaskController : Controller
 {
     private readonly ITaskServiceAsync service;
@@ -63,7 +63,7 @@ public class TaskController : Controller
 
         task.SharedFor = user.UserName;
 
-        var result = await this.service.CreateAsync(this.mapper.Map<TodoListApp.Services.Task>(task));
+        var result = await this.service.CreateAsync(this.mapper.Map<Services.Task>(task));
 
         if (result)
         {
@@ -100,7 +100,7 @@ public class TaskController : Controller
             return this.BadRequest();
         }
 
-        var result = await this.service.UpdateAsync(this.mapper.Map<TodoListApp.Services.Task>(task));
+        var result = await this.service.UpdateAsync(this.mapper.Map<Services.Task>(task));
 
         if (!result)
         {

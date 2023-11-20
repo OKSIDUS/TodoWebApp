@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApplication1.Data.Migrations;
+namespace TodoListApp.WebApp.Data.Migrations;
 public partial class CreateIdentitySchema : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)

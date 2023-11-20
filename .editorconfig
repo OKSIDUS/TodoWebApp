@@ -149,7 +149,7 @@ csharp_using_directive_placement = outside_namespace
 [*.cs]
 # Language rules: this and Me preferences
 dotnet_diagnostic.IDE0003.severity = warning  # Remove this or Me qualification
-dotnet_diagnostic.IDE0009.severity = warning  # Add this or Me qualification
+dotnet_diagnostic.IDE0009.severity = none  # Add this or Me qualification
 # Language rules: Use language keywords for types
 dotnet_diagnostic.IDE0049.severity = error    # Use language keywords instead of framework type names for type references
 # Language rules: Modifier preferences
@@ -198,7 +198,7 @@ dotnet_diagnostic.IDE0080.severity = warning  # Remove unnecessary suppression o
 dotnet_diagnostic.IDE0100.severity = error    # Remove unnecessary equality operator
 dotnet_diagnostic.IDE0110.severity = error    # Remove unnecessary discard
 # Formatting rules
-dotnet_diagnostic.IDE0055.severity = warning  # Formatting rule
+dotnet_diagnostic.IDE0055.severity = none  # Formatting rule
 
 ###############################
 # Code Quality Rules          #

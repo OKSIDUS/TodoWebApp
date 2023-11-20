@@ -74,6 +74,5 @@ public class TaskController : Controller
 
         var taskModels = tasks.Select(t => this.mapper.Map<TaskModel>(t));
         return this.Ok(taskModels);
-
     }
 }

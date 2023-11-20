@@ -29,7 +29,6 @@ public static class Program
 
         builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
         builder.Services.AddScoped<ITaskService, TaskDatabaseService>();
-        builder.Services.AddScoped<IUserService, UserDatabaseService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

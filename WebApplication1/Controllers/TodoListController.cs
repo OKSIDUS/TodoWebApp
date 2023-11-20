@@ -6,7 +6,7 @@ using TodoListApp.Services;
 using TodoListApp.Services.interfaces;
 using TodoListApp.WebApi.Models;
 
-namespace WebApplication1.Controllers;
+namespace TodoListApp.WebApp.Controllers;
 public class TodoListController : Controller
 {
     private readonly ITodoListServiceAsync service;

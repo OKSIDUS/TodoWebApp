@@ -10,7 +10,9 @@ public class TodoListWebApiService : ITodoListServiceAsync
 {
     private static readonly HttpClient HttpClient = new ()
     {
+#pragma warning disable S1075 // URIs should not be hardcoded
         BaseAddress = new Uri("https://localhost:7071"),
+#pragma warning restore S1075 // URIs should not be hardcoded
     };
 
     private readonly IMapper mapper;
